@@ -1,0 +1,1 @@
+web: gunicorn coinluxe.wsgi:application

@@ -1,0 +1,11 @@
+<nav class=" border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+          <div class="py-1 bg-gray-400">
+            <a href="{% url 'change_theme' %}" class="block px-4 py-2 text-sm text-grey-800 dark:text-gray-50">
+              {% if is_dark_theme %}
+                <i class="fa-solid fa-sun"></i>
+              {% else %}
+                <i class="fa-solid fa-moon"></i>
+              {% endif %}
+            </a>
+          </div>
+  </nav>
