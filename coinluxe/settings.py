@@ -69,8 +69,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'themes', 'templates'),
-            os.path.join(BASE_DIR, 'themes', 'templates', 'allauth'),
+            os.path.join(BASE_DIR, 'theme', 'templates'),
+            os.path.join(BASE_DIR, 'theme', 'templates', 'allauth'),
 
             ],
         'APP_DIRS': True,
@@ -86,9 +86,6 @@ TEMPLATES = [
     },
 ]
 
-STATICFILES_DIRS = [
-    'theme/static',
-]
 
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
@@ -166,9 +163,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = 'theme/static/'
+STATIC_URL = 'theme/static'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'theme', 'static'),)
-MEDIA_URL = '/media/'
+MEDIA_URL = '/media'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 if 'USE_AWS' in os.environ:
