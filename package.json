@@ -1,0 +1,12 @@
+{
+    "name": "coinluxe",
+    "version": "1.0.0",
+    "description": "example from https://www.khanna.law/blog/deploying-django-tailwind-to-heroku",
+    "scripts": {
+      "postinstall": "cd theme/static_src && npm install"
+    },
+    "cacheDirectories": [
+      "theme/static_src/node_modules"
+    ]
+  }
+  
