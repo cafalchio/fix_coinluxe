@@ -36,18 +36,17 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'theme.apps.ThemeConfig',
+    'theme',
     'django.contrib.staticfiles',
     'django.contrib.sites',
     # tailwind
     'tailwind',
-    'theme',
+   
     'django_browser_reload',
     # allauth
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    
     # storage s3
     'storages',
 
@@ -166,16 +165,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'theme', 'static'),
-    os.path.join(BASE_DIR, 'theme'),
-    
-]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+STATIC_URL = '/theme/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 if 'USE_AWS' in os.environ:
     AWS_STORAGE_BUCKET_NAME = 'coinluxe'
