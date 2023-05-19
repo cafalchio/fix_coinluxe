@@ -82,7 +82,10 @@
         <div class="flex items-center space-x-3">
             <a class="py-2 px-3 text-gray-700 hover:text-gray-900 hover:bg-gray-300 rounded-md" href="#">Cryptocurrencies</a>
             <a class="py-2 px-3 text-gray-700 hover:text-gray-900 hover:bg-gray-300 rounded-md" href="#">Products</a>
-        </div>
+            <input type="text" id="voice-search" class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-transparent focus:border-gray-400" placeholder="Search Cryptocurrencies" required>
+                <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3">
+                </button>
+            </div>
     </div>
 
     <div class="flex items-center space-x-3">
@@ -90,9 +93,9 @@
       <a class="py-2 px-3 bg-yellow-400 text-amber-700 shadow-slate-700 rounded-md" href="#">Signup</a>
       <a href="{% url 'change_theme' %}" class="block px-2 py-1 text-sm text-grey-800 dark:text-amber-700">
         {% if is_dark_theme %}
-          <i class="fa-solid fa-sun"></i>
+          <i class="fa-solid fa-sun  hover:text-gray-900 hover:bg-gray-300 rounded-md"></i>
         {% else %}
-          <i class="fa-solid fa-moon"></i>
+          <i class="fa-solid fa-moon hover:text-amber-700"></i>
         {% endif %}
       </a>
     </div>
