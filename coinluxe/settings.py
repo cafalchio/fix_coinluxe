@@ -170,8 +170,6 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-print(MEDIA_ROOT)
-print(os.path.join(MEDIA_ROOT, 'coin_images'))
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 if 'USE_AWS' in os.environ:
