@@ -169,12 +169,10 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'theme', 'static'),
 ]
 
-
-# STATIC_URL = '/theme/static/'
-MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
+print(MEDIA_ROOT)
+print(os.path.join(MEDIA_ROOT, 'coin_images'))
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 if 'USE_AWS' in os.environ:
     AWS_STORAGE_BUCKET_NAME = 'coinluxe'
@@ -198,6 +196,9 @@ if 'USE_AWS' in os.environ:
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# dealing wit warnings in python manage.py check --deploy
+
 SECURE_HSTS_SECONDS = 31536000*2
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
