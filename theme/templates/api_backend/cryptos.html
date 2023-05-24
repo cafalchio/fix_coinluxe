@@ -8,18 +8,21 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Symbol</th>
-                    <th>Name</th>
+                    <th>Crypto</th>
+                    <th>current_price</th>
+                    <th>Last Updated</th>
                     <!-- Add more table headers for other fields if needed -->
                 </tr>
             </thead>
             <tbody>
                 {% for crypto in cryptos %}
                 <tr>
-                    <td>{{ crypto.id }}</td>
-                    <td>{{ crypto.symbol }}</td>
+                    <td>
+                        <img src="{{ crypto.image }}" style="width: 50px" />
+                    </td>
                     <td>{{ crypto.name }}</td>
+                    <td>{{ crypto.current_price|floatformat:5}} EUR</td>
+                    <td>{{ crypto.last_updated }}</td>
                     <!-- Add more table cells for other fields if needed -->
                 </tr>
                 {% endfor %}
