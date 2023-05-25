@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     # tailwind
-    # 'tailwind',
+    'tailwind',
 
     # 'django_browser_reload',
     # allauth
