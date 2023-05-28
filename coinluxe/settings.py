@@ -188,6 +188,10 @@ if 'USE_AWS' in os.environ:
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+STATICFILES_IGNORE_PATTERNS = [
+    r"browser-sync/browser-sync-client\.js$",
+]
+
 # dealing wit warnings in python manage.py check --deploy
 
 # SECURE_HSTS_SECONDS = 31536000*2
