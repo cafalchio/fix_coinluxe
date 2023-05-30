@@ -153,6 +153,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
+STATICFILES_IGNORE_PATTERNS = [
+    r"browser-sync/browser-sync-client\.js$",
+]
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'theme', 'static'),
@@ -188,9 +191,6 @@ if 'USE_AWS' in os.environ:
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATICFILES_IGNORE_PATTERNS = [
-    r"browser-sync/browser-sync-client\.js$",
-]
 
 # dealing wit warnings in python manage.py check --deploy
 
