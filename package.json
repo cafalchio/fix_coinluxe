@@ -10,6 +10,6 @@
     "heroku-postbuild": "cd theme/static_src && npm run build"
   },
   "devDependencies": {
-    "browser-sync": "^2.29.3"
+    // "browser-sync": "^2.29.3"
   }
 }
