@@ -8,8 +8,5 @@
   "scripts": {
     "heroku-prebuild": "cd theme/static_src && npm ci --include=dev",
     "heroku-postbuild": "cd theme/static_src && npm run build"
-  },
-  "devDependencies": {
-    // "browser-sync": "^2.29.3"
   }
 }
