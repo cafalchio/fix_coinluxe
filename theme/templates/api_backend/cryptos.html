@@ -1,35 +1,27 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Cryptocurrencies</title>
-    </head>
-    <body>
-        <h1>Cryptocurrencies</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Crypto</th>
-                    <th>current_price</th>
-                    <th>Last Updated</th>
-                    <!-- Add more table headers for other fields if needed -->
-                </tr>
-            </thead>
-            <tbody>
-                {% for crypto in cryptos %}
-                <tr>
-                    <td>
-                        <img src="{{ crypto.image }}" style="width: 50px" />
-                    </td>
-                    <td>{{ crypto.name }}</td>
-                    <td>{{ crypto.current_price|floatformat:5}} EUR</td>
-                    <td>{{ crypto.last_updated }}</td>
-                    <!-- Add more table cells for other fields if needed -->
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </body>
-</html>
-
-This template assumes that you want to display the id, symbol, and name fields
-of each CryptoCurrency
+{% extends 'base.html' %}
+<body>
+    <h1>Cryptocurrencies</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Crypto</th>
+                <th>current_price</th>
+                <th>Last Updated</th>
+                <!-- Add more table headers for other fields if needed -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for crypto in cryptos %}
+            <tr>
+                <td>
+                    <img src="{{ crypto.image }}" style="width: 50px" />
+                </td>
+                <td>{{ crypto.name }}</td>
+                <td>{{ crypto.current_price|floatformat:5}} EUR</td>
+                <td>{{ crypto.last_updated }}</td>
+                <!-- Add more table cells for other fields if needed -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
