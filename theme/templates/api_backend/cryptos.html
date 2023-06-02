@@ -1,27 +1,26 @@
-{% extends '../base.html' %}
-<body>
-    <h1>Cryptocurrencies</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Crypto</th>
-                <th>current_price</th>
-                <th>Last Updated</th>
-                <!-- Add more table headers for other fields if needed -->
-            </tr>
-        </thead>
-        <tbody>
-            {% for crypto in cryptos %}
-            <tr>
-                <td>
-                    <img src="{{ crypto.image }}" style="width: 50px" />
-                </td>
-                <td>{{ crypto.name }}</td>
-                <td>{{ crypto.current_price|floatformat:5}} EUR</td>
-                <td>{{ crypto.last_updated }}</td>
-                <!-- Add more table cells for other fields if needed -->
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
+{% extends '../base.html' %} {% block content %}
+<h1>Cryptocurrencies</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Crypto</th>
+            <th>current_price</th>
+            <th>Last Updated</th>
+            <!-- Add more table headers for other fields if needed -->
+        </tr>
+    </thead>
+    <tbody>
+        {% for crypto in cryptos %}
+        <tr>
+            <td>
+                <img src="{{ crypto.image }}" style="width: 50px" />
+            </td>
+            <td>{{ crypto.name }}</td>
+            <td>{{ crypto.current_price|floatformat:5}} EUR</td>
+            <td>{{ crypto.last_updated }}</td>
+            <!-- Add more table cells for other fields if needed -->
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
