@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'theme',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django_browser_reload',
+    # 'django_browser_reload',
 
     # tailwind
     'tailwind',
@@ -62,7 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
+    # "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = 'coinluxe.urls'
