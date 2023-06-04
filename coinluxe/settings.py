@@ -194,10 +194,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # dealing wit warnings in python manage.py check --deploy
-if not DEBUG:
-    SECURE_HSTS_SECONDS = 31536000*2
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
+# if not DEBUG:
+#     SECURE_HSTS_SECONDS = 31536000*2
+#     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+#     SECURE_HSTS_PRELOAD = True
+#     CSRF_COOKIE_SECURE = True
+#     SECURE_SSL_REDIRECT = True
+#     SESSION_COOKIE_SECURE = True
