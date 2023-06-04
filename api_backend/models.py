@@ -28,5 +28,14 @@ class CryptoCurrency(models.Model):
     atl_date = models.DateTimeField(null=True)
     last_updated = models.DateTimeField()
 
+    class Meta:
+        ordering = ['market_cap']
+
     def __str__(self):
         return self.name
+
+
+# class CryptoHistoricalData(models.Model):
+#     crypto_name = models.CharField(max_length=100)
+#     price = models.DecimalField(max_digits=12, decimal_places=5)
+#     timestamp = models.DateTimeField()
