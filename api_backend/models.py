@@ -29,7 +29,7 @@ class CryptoCurrency(models.Model):
     last_updated = models.DateTimeField()
 
     class Meta:
-        ordering = ['market_cap']
+        ordering = ['-market_cap']
 
     def __str__(self):
         return self.name
