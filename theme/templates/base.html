@@ -20,11 +20,7 @@
         class="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700"
     >
         {% include 'navbar.html' %}
-        <div class="container mx-auto">
-            <section class="flex items-center justify-center h-screen">
-                {% block content %} {% endblock%}
-            </section>
-        </div>
+        <div class="container mx-auto">{% block content %} {% endblock%}</div>
 
         <script src="{% static 'script.js' %}"></script>
         {% block postloadjs%} {% endblock%}
