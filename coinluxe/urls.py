@@ -13,6 +13,6 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('switch-theme/', change_theme, name='change_theme'),
     path("", index, name="home"),
-    path("cryptos/list/",
-         CryptoListView.as_view(template_name="api_backend/cryptos.html")),
+    path("cryptos/list/", CryptoListView.as_view(template_name="cryptos_list"),
+         name="crypto_list"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
