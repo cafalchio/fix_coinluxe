@@ -45,9 +45,11 @@ INSTALLED_APPS = [
     'tailwind',
 
     # allauth
+    "allauth_ui",
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    "widget_tweaks",
     # storage s3
     'storages',
     'api_backend',

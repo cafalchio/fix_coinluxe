@@ -6,6 +6,7 @@
         {% block meta %}
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="{% static 'allauth_ui/output.css' %}">
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <link
             rel="stylesheet"
@@ -17,11 +18,12 @@
     </head>
 
     <body
-        class="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700"
+        class="text-gray-800 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-200"
     >
-        {% include 'navbar.html' %}
-        <div class="container mx-auto">{% block content %} {% endblock%}</div>
 
+        {% include 'messages.html' %}
+        {% include 'navbar.html' %}
+        <div class="container mx-auto text-gray-800 dark:text-gray-200">{% block content %} {% endblock%}</div>
         <script src="{% static 'script.js' %}"></script>
         {% block postloadjs%} {% endblock%}
     </body>

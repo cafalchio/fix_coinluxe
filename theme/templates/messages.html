@@ -1,0 +1,27 @@
+{% load static %}
+{% if messages %}
+<div id="messages-container">
+  {% for message in messages %}
+  <div class="flex items-center px-4 py-3 text-sm font-bold text-white bg-gray-500" role="alert">
+    <p>{{ message }}</p>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<script>
+  // Messages delay
+  const delay = 3000;
+
+  setTimeout(() => {
+    const messagesContainer = document.getElementById('messages-container');
+    if (messagesContainer) {
+      const messages = messagesContainer.getElementsByClassName('flex');
+      Array.from(messages).forEach((message, index) => {
+        setTimeout(() => {
+          message.remove();
+        }, index * delay);
+      });
+    }
+  }, delay);
+</script>

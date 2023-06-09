@@ -4,8 +4,8 @@ from .models import CryptoCurrency
 
 class CryptoListView(ListView):
     model = CryptoCurrency
-    template_name = "cryptos.html"
-    context_object_name = "cryptos"
+    template_name = "api_backend/cryptos.html"
+    # context_object_name = "cryptos"
     paginate_by = 10  # Number of items to display per page
 
     def get_queryset(self):
