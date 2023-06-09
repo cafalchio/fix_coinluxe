@@ -164,11 +164,13 @@
                         href="#"
                         >Categories</a
                     >
+                    {% if user.is_authenticated %}
                     <a
                         class="px-3 py-2 text-gray-700 rounded-md hover:text-gray-800 hover:bg-gray-300"
                         href="#"
                         >Portifolio</a
                     >
+                    {% endif %}
                     <input
                         type="text"
                         id="search"
