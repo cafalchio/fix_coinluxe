@@ -198,11 +198,13 @@
                     href="{% url 'account_signup' %}"
                     >Signup</a
                 >
+                {% endif %} 
                 <a
                     href="{% url 'change_theme' %}"
                     class="block px-2 py-1 text-sm text-grey-800 dark:text-amber-700"
                 >
-                    {% endif %} {% if is_dark_theme %}
+                    
+                    {% if is_dark_theme %}
                     <i
                         class="rounded-md fa-solid fa-sun hover:text-gray-800 hover:bg-gray-300"
                     ></i>
