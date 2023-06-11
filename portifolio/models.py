@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from api_backend.models import CryptoCurrency
 
 
 class Credits(models.Model):
@@ -8,12 +7,13 @@ class Credits(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
 
 
-# class Holding(models.Model):
-#     portfolio = models.ForeignKey('Portfolio', on_delete=models.CASCADE)
-#     cryptocurrency = models.ForeignKey(CryptoCurrency, on_delete=models.CASCADE)
-#     amount = models.FloatField(null=True)
+class Portfolio(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    holdings = models.ManyToManyField('api_backend.CryptoCurrency', through='Holding')
 
 
-# class Portfolio(models.Model):
-#     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-#     holdings = models.ManyToManyField(CryptoCurrency, through=Holding)
+class Holding(models.Model):
+    portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE)
+    cryptocurrency = models.ForeignKey('api_backend.CryptoCurrency', on_delete=models.CASCADE)
+    amount = models.FloatField(null=True)
+

@@ -24,3 +24,5 @@ def add_credits(request):
             credits.amount += int(amount)
             credits.save()
     return render(request, 'portifolio/add_credits.html')
+
+
