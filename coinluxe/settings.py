@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     # storage s3
     'storages',
     'api_backend',
+    'portifolio',
 
 ]
 
@@ -86,6 +87,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
                 'theme.context_processor.theme',  # https://www.youtube.com/watch?v=K1e8kpoag0E
+                'portifolio.context_processors.credits',
             ],
         },
     },

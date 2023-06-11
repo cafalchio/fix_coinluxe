@@ -1,6 +1,11 @@
-# from django.db import models
-# from django.contrib.auth.models import User
-# from api_backend.models import CryptoCurrency
+from django.db import models
+from django.contrib.auth.models import User
+from api_backend.models import CryptoCurrency
+
+
+class Credits(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
 
 
 # class Holding(models.Model):

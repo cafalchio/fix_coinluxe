@@ -181,10 +181,12 @@
                 </div>
             </div>
 
+            
             <!--Right menu-->
             <div class="items-center hidden space-x-3 md:flex">
                 {% if user.is_authenticated %}
-                <a href="{% url 'home' %}" class="text-sm">€0.00</a>
+                <a href="{% url 'home' %}" class="text-sm">€
+                    {{ credits }}</a>
                 <a
                     class="px-3 py-2 text-gray-700 rounded-md hover:text-gray-800 hover:bg-gray-300"
                     href="{% url 'account_logout' %}"
