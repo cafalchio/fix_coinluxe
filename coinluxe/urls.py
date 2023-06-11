@@ -11,5 +11,5 @@ urlpatterns = [
     path('switch-theme/', change_theme, name='change_theme'),
     path('', include('home.urls')),
     path('cryptos/', include('api_backend.urls')),
-    # path('portifolio/', include('portifolio.urls')),
+    path('portifolio/', include('portifolio.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
