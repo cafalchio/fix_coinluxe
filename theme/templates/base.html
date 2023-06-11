@@ -24,6 +24,7 @@
         {% include 'messages.html' %}
         {% include 'navbar.html' %}
         <div class="container mx-auto text-gray-800 dark:text-gray-200">{% block content %} {% endblock%}</div>
+        {% include 'footer.html' %}
         <script src="{% static 'script.js' %}"></script>
         {% block postloadjs%} {% endblock%}
     </body>
