@@ -1,58 +1,18 @@
 {% extends "base.html" %}
 {% load static %}
-{% load custom_filters %}
 
 {% block content %}
   <h1>Add Credit</h1>
-  <form id="payment-form" method="POST" action="{% url 'add_credits' %}">
-    {% csrf_token %}
-    <div id="card-element">
-      <!-- Stripe card element will be inserted here -->
-    </div>
-    <button id="card-button" type="submit" data-secret="{{ client_secret }}">Add Credit</button>
-  </form>
-
-  <script src="https://js.stripe.com/v3/"></script>
-  <script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
-  <script>
-    var stripePublicKey = {{ stripe_public_key|json_script:"id_stripe_public_key" }};
-    var clientSecret = {{ client_secret|json_script:"id_client_secret" }}
-    var cardButton = document.getElementById('card-button');
-
-    // Create a Stripe client
-    var stripe = Stripe(stripePublicKey);
-
-    // Create an instance of Elements
-    var elements = stripe.elements();
-
-    // Create a card element and mount it to the card element container
-    var cardElement = elements.create('card');
-    cardElement.mount('#card-element');
-
-    // Handle the form submission
-    var form = document.getElementById('payment-form');
-    form.addEventListener('submit', function(event) {
-      event.preventDefault();
-      cardButton.disabled = true;
-
-      stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: cardElement,
-          billing_details: {
-            // Include any additional billing details if required
-          }
-        }
-      }).then(function(result) {
-        if (result.error) {
-          // Handle errors
-          // Display error message to the user
-        } else {
-          // Payment succeeded
-          form.submit();
-        }
-      });
-    });
-  </script>
+  <div class="container home_msg">
+    {% if user.is_authenticated %}
+      <form enctype="multipart/form-data" method="post" role="product_page">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Payment</button>
+      </form>
+    {% else %}
+      <h2>You're not logged in...</h2>
+      <a href="{% url 'login' %}" class="btn btn-secondary">Log in</a>
+    {% endif %}
+  </div>
 {% endblock %}
-
-<script src="{% static 'stripe_elements.js' %}"></script>
