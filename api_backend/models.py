@@ -1,3 +1,4 @@
+from datetime import timedelta
 from django.db import models
 
 
@@ -27,6 +28,41 @@ class CryptoCurrency(models.Model):
     atl_change_percentage = models.FloatField(null=True)
     atl_date = models.DateTimeField(null=True)
     last_updated = models.DateTimeField()
+
+    @property
+    def formatted_current_price(self):
+        return '{:,.2f} €'.format(self.current_price)
+
+    @property
+    def formatted_market_cap(self):
+        if self.market_cap >= 1000000000:
+            return '{:,.2f} bi €'.format(self.market_cap / 1000000000)
+        elif self.market_cap >= 1000000:
+            return '{:,.2f} mi €'.format(self.market_cap / 1000000)
+        else:
+            return '{:,.2f} €'.format(self.market_cap)
+        
+    @property
+    def formatted_price_change_24h(self):
+        return f"{self.price_change_percentage_24h:.2f} %"
+    
+    
+    @property 
+    def formatted_last_updated(self):
+        updated_time = self.last_updated + timedelta(hours=1)
+        return updated_time.strftime("%I:%M %p")
+        
+    @property
+    def formatted_total_volume(self):
+        if self.total_volume >= 1000000000:
+            return '{:,.2f} bi €'.format(self.total_volume / 1000000000)
+        elif self.total_volume >= 1000000:
+            return '{:,.2f} mi €'.format(self.total_volume / 1000000)
+        else:
+            return '{:,.2f} €'.format(self.total_volume)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         ordering = ['-market_cap']
