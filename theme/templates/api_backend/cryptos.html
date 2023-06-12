@@ -6,20 +6,20 @@
     <table class="w-full">
         <thead class="border-b border-gray-100 dark:border-gray-700">
             <tr>
-                <th class="px-4 py-3 text-left bg-transparent"><h2 class="">Symbol</h2></th>
-                <th class="px-4 py-3 text-left bg-transparent"><h2 class="">Price</h2></th>
-                <th class="px-4 py-3 text-left bg-transparent"><h2 class="hidden md:flex">Market Cap</h2></th>
-                <th class="px-4 py-3 text-left bg-transparent"><h2 class="">Volume</h2></th>
-                <th class="px-4 py-3 text-left bg-transparent"><h2 class="hidden md:flex">Daily</h2></th>
-                <th class="px-4 py-3 text-left bg-transparent"><h2 class="hidden md:flex">Updated</h2></th>
+                <th class="px-4 py-3 text-sm text-left bg-transparent md:text-2xl"><div class="">Symbol</div></th>
+                <th class="px-4 py-3 text-sm text-left bg-transparent md:text-2xl"><div class="">Price</div></th>
+                <th class="px-4 py-3 text-sm text-left bg-transparent md:text-2xl"><div class="hidden md:flex">Market Cap</div></th>
+                <th class="px-4 py-3 text-sm text-left bg-transparent md:text-2xl"><div class="hidden md:flex">Volume</div></th>
+                <th class="px-4 py-3 text-sm text-left bg-transparent md:text-2xl"><div class="hidden md:flex">Daily</div></th>
+                <th class="px-4 py-3 text-sm text-left bg-transparent md:text-2xl"><div class="">Updated</div></th>
             </tr>
         </thead>
         <tbody>
             {% for crypto in page_obj %}
             <tr onclick="window.location.href='{{crypto.name}}';" class="cursor-pointer">
                 <td class="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
-                    <div style="display: flex; align-items: center;">
-                        <img class="w-10 h-10 rounded-t-lg" src="{{ crypto.image }}" alt="" />
+                    <div class="flex items-center">
+                        <img class="w-10 h-10" src="{{ crypto.image }}" alt="{{crypto.name}} Logo" />
                         <div style="margin-left: 10px;">
                             <div class="text-sm text-gray-800 md:px-0 md:text-1xl dark:text-gray-100">
                                 {{ crypto.name }}
@@ -35,7 +35,7 @@
                     <h5 class="hidden text-sm tracking-tight text-gray-800 md:text-1xl dark:text-gray-400 md:flex">{{ crypto.formatted_market_cap }}</h5>
                 </td>
                 <td class="px-4 py-3 font-medium border-b border-gray-100 dark:border-gray-700">
-                    <h5 class="text-sm tracking-tight text-gray-800 md:text-1xl dark:text-gray-400">{{ crypto.formatted_total_volume }}</h5>
+                    <h5 class="hidden text-sm tracking-tight text-gray-800 md:text-1xl dark:text-gray-400 md:flex">{{ crypto.formatted_total_volume }}</h5>
                 </td>
                 <td class="px-4 py-3 font-medium border-b border-gray-100 dark:border-gray-700">
                     {% if crypto.price_change_percentage_24h > 0 %}
@@ -53,7 +53,7 @@
                         {% endif %}
                     </td>
                     <td class="px-4 py-3 font-medium border-b border-gray-100 md:table-column dark:border-gray-700">
-                        <h5 class="hidden text-sm tracking-tight text-gray-800 md:text-1xl dark:text-gray-400 md:flex">{{ crypto.formatted_last_updated }}</h5>
+                        <h5 class="text-sm tracking-tight text-gray-800 md:text-1xl dark:text-gray-400 ">{{ crypto.formatted_last_updated }}</h5>
                     </td>
                 </tr>
                 {% endfor %}
