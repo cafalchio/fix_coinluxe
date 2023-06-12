@@ -7,8 +7,6 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
 import stripe
-
-from portifolio.forms import AddCreditsForm
 from .models import Credits, UserPayment
 
 register = template.Library()
@@ -27,29 +25,23 @@ def get_credits(request):
 @login_required(login_url="login")
 def add_credits(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY_TEST
-
     if request.method == "POST":
-        form = AddCreditsForm(request.POST)
-        if form.is_valid():
-            product_price = form.cleaned_data['product_price']
-            checkout_session = stripe.checkout.Session.create(
-                payment_method_types=["card"],
-                line_items=[
-                    {
-                        "price": str(product_price),
-                        "quantity": 1,
-                    },
-                ],
-                mode="payment",
-                customer_creation="always",
-                success_url=settings.REDIRECT_DOMAIN + "/payment_succesful?session_id={CHECKOUT_SESSION_ID}",
-                cancel_url=settings.REDIRECT_DOMAIN + "/payment_cancelled",
-            )
-            return redirect(checkout_session.url, code=303)
-    else:
-        form = AddCreditsForm()
-
-    return render(request, "portifolio/add_credits.html", {"form": form})
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=["card"],
+            line_items=[
+                {
+                    "price": settings.PRODUCT_PRICE,
+                    "quantity": 1,
+                },
+            ],
+            mode="payment",
+            customer_creation="always",
+            success_url=settings.REDIRECT_DOMAIN
+            + "/payment_succesful?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url=settings.REDIRECT_DOMAIN + "/payment_cancelled",
+        )
+        return redirect(checkout_session.url, code=303)
+    return render(request, "portifolio/add_credits.html")
 
 
 def payment_successful(request):
@@ -68,11 +60,17 @@ def payment_cancelled(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY_TEST
     return render(request, "portifolio/payment_cancelled.html")
 
+def save_credits(user, amount):
+    user_obj = UserDict.objects.get(username=user)
+    credits, _ = Credits.objects.get_or_create(user=user_obj)
+    credits.amount += amount
+    print("save credits")
+    credits.save()
 
 @csrf_exempt
 def stripe_webhook(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY_TEST
-    time.sleep(10)
+    time.sleep(8)
     payload = request.body
     signature_header = request.META["HTTP_STRIPE_SIGNATURE"]
     event = None
@@ -84,25 +82,21 @@ def stripe_webhook(request):
         return HttpResponse(status=400)
     except stripe.error.SignatureVerificationError as e:
         return HttpResponse(status=400)
+    
     if event["type"] == "checkout.session.completed":
         session = event["data"]["object"]
         session_id = session.get("id", None)
-        time.sleep(15)
         user_payment = UserPayment.objects.get(stripe_checkout_id=session_id)
         line_items = stripe.checkout.Session.list_line_items(session_id, limit=1)
         item = line_items.data[0]
         credits = item.price.unit_amount / 100
+        print(f"\n_____________________________________Credits -> {credits}\n")
         save_credits(user=request.user, credits = credits)
         user_payment.payment_bool = True
         user_payment.save()
     return HttpResponse(status=200)
 
 
-def save_credits(user, amount):
-    user_obj = UserDict.objects.get(username=user)
-    credits, _ = Credits.objects.get_or_create(user=user_obj)
-    credits.amount += amount
-    credits.save()
     
 # def use_credits(user, amount):
 #     user_obj = UserDict.objects.get(username=user)
