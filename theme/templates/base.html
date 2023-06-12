@@ -15,7 +15,7 @@
 
         {% endblock meta %} {% tailwind_css %}
         {% block corejs %}
-        <script src="{% static 'script.js' %}"></script>
+       
         
          {% endblock %}
         <title>CoinLuxe {% block extra_title %}{% endblock %}</title>
@@ -31,6 +31,7 @@
         {% include 'footer.html' %}
         
         {% block postloadjs%} 
+        <script src="{% static 'script.js' %}"></script>
         {% endblock%}
         
     </body>
