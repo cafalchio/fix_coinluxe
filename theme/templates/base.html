@@ -29,8 +29,6 @@
         {% include 'navbar.html' %}
         <div class="container mx-auto text-gray-800 dark:text-gray-200">{% block content %} {% endblock%}</div>
         {% include 'footer.html' %}
-        
-        {% block postloadjs%} <script src="https://js.stripe.com/v3/"></script>
         {% endblock%}
         
     </body>
