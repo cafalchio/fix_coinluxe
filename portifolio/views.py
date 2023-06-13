@@ -1,13 +1,13 @@
-from collections import UserDict
 import time
 from django import template
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 import stripe
-from .models import Credits, UserPayment
+from .models import Credits
 
 register = template.Library()
 
@@ -25,6 +25,7 @@ def get_credits(request):
 @login_required(login_url="login")
 def add_credits(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY_TEST
+    metadata = {"user_id": str(request.user.id)} 
     if request.method == "POST":
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=["card"],
@@ -39,6 +40,7 @@ def add_credits(request):
             success_url=settings.REDIRECT_DOMAIN
             + "/payment_succesful?session_id={CHECKOUT_SESSION_ID}",
             cancel_url=settings.REDIRECT_DOMAIN + "/payment_cancelled",
+            metadata=metadata, 
         )
         return redirect(checkout_session.url, code=303)
     return render(request, "portifolio/add_credits.html")
@@ -49,10 +51,7 @@ def payment_successful(request):
     checkout_session_id = request.GET.get("session_id", None)
     session = stripe.checkout.Session.retrieve(checkout_session_id)
     customer = stripe.Customer.retrieve(session.customer)
-    user_id = request.user.user_id
-    user_payment = UserPayment.objects.get(app_user=user_id)
-    user_payment.stripe_checkout_id = checkout_session_id
-    user_payment.save()
+    
     return render(request, "portifolio/payment_successful.html", {"customer": customer})
 
 
@@ -61,12 +60,15 @@ def payment_cancelled(request):
     return render(request, "portifolio/payment_cancelled.html")
 
 def save_credits(user, amount):
-    user_obj = UserDict.objects.get(username=user)
-    credits, _ = Credits.objects.get_or_create(user=user_obj)
-    credits.amount += amount
-    print("save credits")
+    print("Save credits")
+    print(f"user {user}, amount: {amount}")
+    credits, created = Credits.objects.get_or_create(user=user)
+    if created:
+        credits.amount = amount
+    else:
+        credits.amount += amount
     credits.save()
-
+    
 @csrf_exempt
 def stripe_webhook(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY_TEST
@@ -85,22 +87,16 @@ def stripe_webhook(request):
     
     if event["type"] == "checkout.session.completed":
         session = event["data"]["object"]
+        metadata = session.get("metadata", {})
+        user_id = metadata.get("user_id")
+        user = User.objects.get(id=user_id) if user_id else None
         session_id = session.get("id", None)
-        user_payment = UserPayment.objects.get(stripe_checkout_id=session_id)
+        time.sleep(4)    
         line_items = stripe.checkout.Session.list_line_items(session_id, limit=1)
         item = line_items.data[0]
-        credits = item.price.unit_amount / 100
-        print(f"\n_____________________________________Credits -> {credits}\n")
-        save_credits(user=request.user, credits = credits)
-        user_payment.payment_bool = True
-        user_payment.save()
+        credits = int(item.amount_total) / 100
+        save_credits(user=user, amount=credits)
     return HttpResponse(status=200)
 
 
-    
-# def use_credits(user, amount):
-#     user_obj = UserDict.objects.get(username=user)
-#     credits, created = Credits.objects.get_or_create(user=user_obj)
-#     credits.amount -= amount
-#     credits.save()
     

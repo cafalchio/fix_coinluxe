@@ -5,6 +5,8 @@ import os
 import urllib.parse as up
 from dotenv import load_dotenv
 
+from coinluxe import settings
+
 load_dotenv()
 
 
@@ -30,6 +32,8 @@ class CoinGecko:
 
 
 async def update_db():
+    if settings.DEBUG:
+        print("starting DB updated")
     url = up.urlparse(os.environ["DATABASE_URL"])
     conn = psycopg2.connect(database=url.path[1:],
                             user=url.username,
@@ -41,7 +45,8 @@ async def update_db():
     # Update the data in the table
     coingecko = CoinGecko()
     data = await coingecko.get_coin_market()
-
+    if settings.DEBUG:
+        print(f" dowloaded {len(data)} coins")
     if data:
         for entry in data:
             cur.execute("""
@@ -71,6 +76,25 @@ async def update_db():
                     'atl_date'), entry['last_updated'],
                 entry['id']
             ))
+            # RUN FIRST TIME TO ADD VALUES TO THE DB
+            # cur.execute("""
+            # INSERT INTO api_backend_cryptocurrency (id, symbol, name, image, current_price, market_cap,
+            #     market_cap_rank, fully_diluted_valuation, total_volume, high_24h, low_24h,
+            #     price_change_24h, price_change_percentage_24h, market_cap_change_24h,
+            #     market_cap_change_percentage_24h, circulating_supply, total_supply, max_supply,
+            #     ath, ath_change_percentage, ath_date, atl, atl_change_percentage,
+            #     atl_date, last_updated)
+            # VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            # ON CONFLICT (id) DO NOTHING
+            # """, (
+            #     entry['id'], entry['symbol'], entry['name'], entry.get('image'), entry.get('current_price'),
+            #     entry.get('market_cap'), entry.get('market_cap_rank'), entry.get('fully_diluted_valuation'),
+            #     entry.get('total_volume'), entry.get('high_24h'), entry.get('low_24h'), entry.get('price_change_24h'),
+            #     entry.get('price_change_percentage_24h'), entry.get('market_cap_change_24h'),
+            #     entry.get('market_cap_change_percentage_24h'), entry.get('circulating_supply'), entry.get('total_supply'),
+            #     entry.get('max_supply'), entry.get('ath'), entry.get('ath_change_percentage'), entry.get('ath_date'),
+            #     entry.get('atl'), entry.get('atl_change_percentage'), entry.get('atl_date'), entry['last_updated']
+            # ))
 
         # Commit the changes to the database
         conn.commit()
@@ -78,6 +102,7 @@ async def update_db():
     # Close the cursor and connection
     cur.close()
     conn.close()
-
+    if settings.DEBUG:
+        print("Db updated")
 if __name__ == "__main__":
     asyncio.run(update_db())
