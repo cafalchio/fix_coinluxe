@@ -51,7 +51,9 @@ def payment_successful(request):
     checkout_session_id = request.GET.get("session_id", None)
     session = stripe.checkout.Session.retrieve(checkout_session_id)
     customer = stripe.Customer.retrieve(session.customer)
-    
+    if settings.DEBUG:
+        print(f"{session} -> Session ID")
+        print(f"{customer} -> costumer ")
     return render(request, "portifolio/payment_successful.html", {"customer": customer})
 
 
