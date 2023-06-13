@@ -38,7 +38,7 @@ def add_credits(request):
             mode="payment",
             customer_creation="always",
             success_url=settings.REDIRECT_DOMAIN
-            + "/payment_succesful?session_id={CHECKOUT_SESSION_ID}",
+            + "/payment_successful?session_id={CHECKOUT_SESSION_ID}",
             cancel_url=settings.REDIRECT_DOMAIN + "/payment_cancelled",
             metadata=metadata, 
         )
