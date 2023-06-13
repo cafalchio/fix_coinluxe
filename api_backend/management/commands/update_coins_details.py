@@ -1,4 +1,5 @@
 import time
+from django.conf import settings
 from django.core.management.base import BaseCommand
 import requests
 from api_backend.models import Coins
@@ -18,13 +19,14 @@ class Command(BaseCommand):
         coin_data = response.json()
         
         for coin in coin_data:
-            coin_id = coin['id']
+            if settings.DEBUG:
+                coin_id = coin['id']
             response = requests.get(coingecko + f'/coins/{coin_id}?localization=false&tickers=false&market_data=false&community_data=true&developer_data=true&sparkline=false')
             if response.status_code != 200:
                 self.stdout.write(self.style.ERROR('Failed to retrieve data from the endpoint.'))
                 return
             coin = response.json()
-            
+            print(coin_id)
             # Extract relevant data from the coin object
             coin_id = coin['id']
             symbol = coin["symbol"]
@@ -55,7 +57,7 @@ class Command(BaseCommand):
             coin_obj.market_cap_rank = market_cap_rank
 
             coin_obj.save()
-            time.sleep(8) # to avoid max requests
+            time.sleep(6) # to avoid max requests
 
         self.stdout.write(self.style.SUCCESS('Database update complete.'))
 
