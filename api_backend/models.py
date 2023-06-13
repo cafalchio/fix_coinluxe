@@ -31,20 +31,20 @@ class CryptoCurrency(models.Model):
 
     @property
     def formatted_current_price(self):
-        return '{:,.2f} €'.format(self.current_price)
+        return '{:,.2f}'.format(self.current_price)
 
     @property
     def formatted_market_cap(self):
         if self.market_cap >= 1000000000:
-            return '{:,.2f} bi €'.format(self.market_cap / 1000000000)
+            return '{:,.2f} bi'.format(self.market_cap / 1000000000)
         elif self.market_cap >= 1000000:
-            return '{:,.2f} mi €'.format(self.market_cap / 1000000)
+            return '{:,.2f} mi'.format(self.market_cap / 1000000)
         else:
-            return '{:,.2f} €'.format(self.market_cap)
+            return '{:,.2f}'.format(self.market_cap)
         
     @property
     def formatted_price_change_24h(self):
-        return f"{self.price_change_percentage_24h:.2f} %"
+        return f"{self.price_change_percentage_24h:.2f}%"
     
     
     @property 
@@ -55,11 +55,11 @@ class CryptoCurrency(models.Model):
     @property
     def formatted_total_volume(self):
         if self.total_volume >= 1000000000:
-            return '{:,.2f} bi €'.format(self.total_volume / 1000000000)
+            return '{:,.2f} bi'.format(self.total_volume / 1000000000)
         elif self.total_volume >= 1000000:
-            return '{:,.2f} mi €'.format(self.total_volume / 1000000)
+            return '{:,.2f} mi'.format(self.total_volume / 1000000)
         else:
-            return '{:,.2f} €'.format(self.total_volume)
+            return '{:,.2f}'.format(self.total_volume)
 
     def __str__(self):
         return self.name
