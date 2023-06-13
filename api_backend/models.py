@@ -50,7 +50,7 @@ class CryptoCurrency(models.Model):
     @property 
     def formatted_last_updated(self):
         updated_time = self.last_updated + timedelta(hours=1)
-        return updated_time.strftime("%I:%M %p")
+        return updated_time.strftime("%m %b - %H:%M:%S")
         
     @property
     def formatted_total_volume(self):

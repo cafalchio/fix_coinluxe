@@ -19,7 +19,7 @@
             <tr class="cursor-pointer">
                 
                 <td class="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
-                    <a href="{% url 'add_credits' %}">
+                    <a href="{% url 'crypto_list' %}">
                     <div class="flex items-center">
                         <img class="w-10 h-10" src="{{ crypto.image }}" alt="{{crypto.name}} Logo" />
                         <div style="margin-left: 10px;">
@@ -42,21 +42,26 @@
                 </td>
                 <td class="px-4 py-3 font-medium border-b border-gray-100 dark:border-gray-700">
                     {% if crypto.price_change_percentage_24h > 0 %}
-                        <h5 class="hidden text-sm tracking-tight text-slate-300 md:text-1xl dark:text-gray-400 md:flex">
-                            +{{ crypto.formatted_price_change_24h }}
+                    <div class="text-green-600">
+                        <h5 class="hidden text-sm tracking-tight md:text-1xl dark:text-gray-400 md:flex">
+                            +{{ crypto.formatted_price_change_24h }} 
                         </h5>
-                        {% elif crypto.price_change_percentage_24h < 0 %}
-                        <h5 class="hidden text-sm tracking-tight text-red-200 md:text-1xl dark:text-gray-400 md:flex">
+                    </div>
+                    {% elif crypto.price_change_percentage_24h < 0 %}
+                    <div class="text-red-500">    
+                        <h5 class="hidden text-sm tracking-tight md:text-1xl dark:text-gray-400 md:flex">
                             {{ crypto.formatted_price_change_24h }}
                         </h5>
-                        {% else %}
-                        <h5 class="hidden text-sm tracking-tight text-gray-800 md:text-1xl dark:text-gray-400 md:flex">
+                    </div>
+                    {% else %}
+                        <h5 class="hidden text-sm tracking-tight md:text-1xl dark:text-gray-400 md:flex">
                             {{ crypto.formatted_price_change_24h }}
                         </h5>
-                        {% endif %}
-                    </td>
-                    <td class="px-4 py-3 font-medium border-b border-gray-100 md:table-column dark:border-gray-700">
-                        <h5 class="hidden text-sm tracking-tight text-gray-800 md:flex md:text-1xl dark:text-gray-400 ">{{ crypto.formatted_last_updated }}</h5>
+                    {% endif %}
+                </td>
+                
+                    <td class="px-4 py-3 font-medium border-b border-gray-100 dark:border-gray-700">
+                        <h5 class="hidden text-sm tracking-tight text-gray-800 md:text-1xl dark:text-gray-400 md:flex">{{ crypto.formatted_last_updated }}</h5>
                     </td>
                 </tr>
                 {% endfor %}
