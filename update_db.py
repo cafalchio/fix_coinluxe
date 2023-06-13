@@ -1,4 +1,5 @@
 import asyncio
+import time
 import aiohttp
 import psycopg2
 import os
@@ -29,6 +30,12 @@ class CoinGecko:
         endpoint = '/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=250&page=1&sparkline=false&locale=en'
         data = await self.fetch_data(endpoint)
         return data
+    
+    async def get_coin_detail(self, coin):
+        """Method to get detail data from a coin"""
+        endpoint = f'/coins/{coin}?localization=false&tickers=false&market_data=false&community_data=true&developer_data=true&sparkline=false'
+        data = await self.fetch_data(endpoint)
+        return data
 
 
 async def update_db():
@@ -47,8 +54,24 @@ async def update_db():
     data = await coingecko.get_coin_market()
     if settings.DEBUG:
         print(f" dowloaded {len(data)} coins")
-    if data:
-        for entry in data:
+    if data:    
+        for i, entry in enumerate(data):
+            print(i)
+            # Update the coin detail
+            coin_detail = await coingecko.get_coin_detail(entry['id'])
+            
+            cur.execute("""
+            INSERT INTO api_backend_coins (id, symbol, name, asset_platform_id, block_time_in_minutes, 
+            categories, description, homepage, blockchain_site, market_cap_rank)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """, (
+            coin_detail['id'], coin_detail['symbol'], coin_detail['name'], coin_detail['asset_platform_id'],
+            coin_detail['block_time_in_minutes'], coin_detail['categories'], coin_detail['description']['en'],
+            coin_detail['links']['homepage'], coin_detail['links']['blockchain_site'], coin_detail['market_cap_rank']
+            ))
+            conn.commit()
+            
+            # Update the coin 
             cur.execute("""
             UPDATE api_backend_cryptocurrency
             SET symbol = %s, name = %s, image = %s, current_price = %s, market_cap = %s,
@@ -76,33 +99,41 @@ async def update_db():
                     'atl_date'), entry['last_updated'],
                 entry['id']
             ))
-            # RUN FIRST TIME TO ADD VALUES TO THE DB
-            # cur.execute("""
-            # INSERT INTO api_backend_cryptocurrency (id, symbol, name, image, current_price, market_cap,
-            #     market_cap_rank, fully_diluted_valuation, total_volume, high_24h, low_24h,
-            #     price_change_24h, price_change_percentage_24h, market_cap_change_24h,
-            #     market_cap_change_percentage_24h, circulating_supply, total_supply, max_supply,
-            #     ath, ath_change_percentage, ath_date, atl, atl_change_percentage,
-            #     atl_date, last_updated)
-            # VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            # ON CONFLICT (id) DO NOTHING
-            # """, (
-            #     entry['id'], entry['symbol'], entry['name'], entry.get('image'), entry.get('current_price'),
-            #     entry.get('market_cap'), entry.get('market_cap_rank'), entry.get('fully_diluted_valuation'),
-            #     entry.get('total_volume'), entry.get('high_24h'), entry.get('low_24h'), entry.get('price_change_24h'),
-            #     entry.get('price_change_percentage_24h'), entry.get('market_cap_change_24h'),
-            #     entry.get('market_cap_change_percentage_24h'), entry.get('circulating_supply'), entry.get('total_supply'),
-            #     entry.get('max_supply'), entry.get('ath'), entry.get('ath_change_percentage'), entry.get('ath_date'),
-            #     entry.get('atl'), entry.get('atl_change_percentage'), entry.get('atl_date'), entry['last_updated']
-            # ))
-
-        # Commit the changes to the database
         conn.commit()
+        time.speep(5)
+        
 
     # Close the cursor and connection
     cur.close()
     conn.close()
     if settings.DEBUG:
         print("Db updated")
+        
+
+
+
+
 if __name__ == "__main__":
     asyncio.run(update_db())
+
+    # RUN FIRST TIME TO ADD VALUES TO THE DB
+    # cur.execute("""
+    # INSERT INTO api_backend_cryptocurrency (id, symbol, name, image, current_price, market_cap,
+    #     market_cap_rank, fully_diluted_valuation, total_volume, high_24h, low_24h,
+    #     price_change_24h, price_change_percentage_24h, market_cap_change_24h,
+    #     market_cap_change_percentage_24h, circulating_supply, total_supply, max_supply,
+    #     ath, ath_change_percentage, ath_date, atl, atl_change_percentage,
+    #     atl_date, last_updated)
+    # VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+    # ON CONFLICT (id) DO NOTHING
+    # """, (
+    #     entry['id'], entry['symbol'], entry['name'], entry.get('image'), entry.get('current_price'),
+    #     entry.get('market_cap'), entry.get('market_cap_rank'), entry.get('fully_diluted_valuation'),
+    #     entry.get('total_volume'), entry.get('high_24h'), entry.get('low_24h'), entry.get('price_change_24h'),
+    #     entry.get('price_change_percentage_24h'), entry.get('market_cap_change_24h'),
+    #     entry.get('market_cap_change_percentage_24h'), entry.get('circulating_supply'), entry.get('total_supply'),
+    #     entry.get('max_supply'), entry.get('ath'), entry.get('ath_change_percentage'), entry.get('ath_date'),
+    #     entry.get('atl'), entry.get('atl_change_percentage'), entry.get('atl_date'), entry['last_updated']
+    # ))
+
+# Commit the changes to the database
