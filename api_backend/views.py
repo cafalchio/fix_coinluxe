@@ -5,7 +5,7 @@ from django.db.models import Q
 
 
 class CryptoListView(ListView):
-    paginate_by = 15
+    paginate_by = 10
     model = CryptoCurrency
     template_name = "api_backend/cryptos.html"
     
