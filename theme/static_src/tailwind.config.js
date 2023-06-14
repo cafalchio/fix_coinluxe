@@ -5,8 +5,6 @@
  * https://unpkg.com/browse/tailwindcss@latest/stubs/defaultConfig.stub.js
  */
 
-const colors = require('tailwindcss/colors');
-
 module.exports = {
     darkMode: "class",
     content: [

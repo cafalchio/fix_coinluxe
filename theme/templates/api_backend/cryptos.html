@@ -6,19 +6,19 @@
     <table class="w-full shrink">
         <thead class="border-b border-gray-100 dark:border-gray-700">
             <tr>
-                <th class="px-2 py-3 text-sm font-semibold text-left bg-transparent md:px-4 md:text-2xl"><div class="">Symbol</div></th>
-                <th class="px-4 py-3 text-sm font-semibold text-left bg-transparent md:text-2xl"><div class="">Price €</div></th>
-                <th class="px-4 py-3 text-sm font-semibold text-left bg-transparent md:text-2xl"><div class="">M Cap</div></th>
-                <th class="px-4 py-3 text-sm font-semibold text-left bg-transparent md:text-2xl"><div class="hidden md:flex">Volume</div></th>
-                <th class="px-4 py-3 text-sm font-semibold text-left bg-transparent md:text-2xl"><div class="">Daily</div></th>
-                <th class="px-4 py-3 text-sm font-semibold text-left bg-transparent md:text-2xl"><div class="hidden md:flex">Updated</div></th>
+                <th class="px-2 py-3 text-sm font-semibold text-left bg-transparent dark:text-gray-100 md:px-4 md:text-2xl"><div class="">Symbol</div></th>
+                <th class="px-4 py-3 text-sm font-semibold text-left bg-transparent dark:text-gray-100 md:text-2xl"><div class="">Price €</div></th>
+                <th class="px-4 py-3 text-sm font-semibold text-left bg-transparent dark:text-gray-100 md:text-2xl"><div class="">M Cap</div></th>
+                <th class="px-4 py-3 text-sm font-semibold text-left bg-transparent dark:text-gray-100 md:text-2xl"><div class="hidden md:flex">Volume</div></th>
+                <th class="px-4 py-3 text-sm font-semibold text-left bg-transparent dark:text-gray-100 md:text-2xl"><div class="">Daily</div></th>
+                <th class="px-4 py-3 text-sm font-semibold text-left bg-transparent dark:text-gray-100 md:text-2xl"><div class="hidden md:flex">Updated</div></th>
             </tr>
         </thead>
         <tbody class="shrink">
             {% for crypto in page_obj %}
             <tr class="cursor-pointer" onclick="location.href='{% url 'coin' pk=crypto.id %}'">
                 
-                <td class="px-4 py-3 font-medium border-b border-gray-4 dark:border-gray-700">
+                <td class="px-4 py-3 font-medium border-b border-gray-4 dark:border-gray-700 ">
                     <div class="flex items-start">
                         <div class="flex flex-col items-center justify-center md:px-4">
                             <div class="py-0.5">
@@ -79,7 +79,7 @@
                 <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 ml-0 text-sm leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">previous</a>
             {% endif %}
     
-            <span class="text-sm leading-tight text-gray-500 bg-gray-50 current dark:bg-gray-900 dark:border-gray-700 dark:text-gray-400">
+            <span class="hidden text-sm leading-tight text-gray-500 sm:flex bg-gray-50 current dark:bg-gray-900 dark:border-gray-700 dark:text-gray-400">
                 Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
             </span>
             {% if page_obj.has_next %}
