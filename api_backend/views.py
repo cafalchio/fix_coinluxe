@@ -16,9 +16,10 @@ class CoinDetailView(DetailView):
     template_name = "api_backend/coin.html"
     context_object = 'coin'
     
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        context =  super().get_context_data(**kwargs)
-        coin = Coins.objects.filter(id=self.kwargs.get("id"))
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        coin = Coins.objects.get(id=self.kwargs.get("pk"))
+        context['coin'] = coin
         return context
 
     
