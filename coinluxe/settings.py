@@ -215,7 +215,7 @@ REDIRECT_DOMAIN = "https://coinluxe.herokuapp.com/portifolio"
 PRODUCT_PRICE = "price_1NHoiiHDQ21gOZTqjAwPDuLt"
 
 SITE_ID = 1
-SITE_NAM= 'Coinluxe'
+SITE_NAME = 'Coinluxe'
 
 
 # dealing wit warnings in python manage.py check --deploy
