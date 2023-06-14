@@ -87,5 +87,9 @@ class Coins(models.Model):
     market_cap_rank = models.PositiveIntegerField(default=0)
     categories = models.JSONField(max_length=100, null=True)
 
+    @property
+    def formatted_symbol(self):
+        return f"{self.symbol.upper()}"
+
     def __str__(self):
         return self.name

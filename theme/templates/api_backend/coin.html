@@ -1,9 +1,18 @@
-{% extends '../base.html' %}
-{% block content %}
+{% extends "base.html" %} {% load static %} {% block content %}
 
 
-<h1>{{coin.name}}</h1>
-
-<div>{{coin.categories}}</div>
+<div class="container p-4 mx-auto">
+    <div class="flex flex-row items-center justify-start space-x-2 font-bold">
+        <div class="">
+            <img src="{{ MEDIA_URL }}coin_images/{{ coin.id }}.png" alt="{{ coin.name }}" class="w-16 h-16 md:w-24 md:h-24">
+        </div>
+        <div class="">
+            <p class="text-sm break-words md:text-3xl">{{ coin.name }}</p>
+        </div>
+        <div class="">
+            <p class="text-sm break-words md:text-3xl">({{ coin.formatted_symbol }})</p>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
