@@ -71,8 +71,7 @@ class CryptoCurrency(models.Model):
         return self.name
 
 
-# Detail data
-
+# Coin Detail
 class Coins(models.Model):
     id = models.CharField(max_length=100, primary_key=True)
     symbol = models.CharField(max_length=10)
