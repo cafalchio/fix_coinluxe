@@ -1,3 +1,4 @@
+import json
 import time
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -28,18 +29,18 @@ class Command(BaseCommand):
             coin = response.json()
             print(coin_id)
             # Extract relevant data from the coin object
-            coin_id = coin['id']
+            coin_id = coin["id"]
             symbol = coin["symbol"]
             name = coin["name"]
-            block_time_in_minutes = coin['block_time_in_minutes']
+            block_time_in_minutes = coin["block_time_in_minutes"]
             categories = coin.get("categories", [])  
-            description = "coin_description"
+            description = coin["description"]['en']
             homepage = coin.get("homepage", []) 
             blockchain_site = coin.get("blockchain_site", [])  
-            market_cap_rank = 1
-            homepage_value = homepage[0] if homepage else None
-            blockchain_site_value = blockchain_site[0] if blockchain_site else None
-            categories_value = categories[0] if categories else None
+            market_cap_rank = coin["market_cap_rank"]
+            homepage_value = homepage if homepage else None
+            blockchain_site_value = blockchain_site if blockchain_site else None
+            categories_value = categories if categories else None
 
             try:
                 coin_obj = Coins.objects.get(id=coin_id)
@@ -50,10 +51,10 @@ class Command(BaseCommand):
             coin_obj.symbol = symbol
             coin_obj.name = name
             coin_obj.block_time_in_minutes = block_time_in_minutes
-            coin_obj.categories = categories_value
+            coin_obj.categories = json.dumps(categories_value)
             coin_obj.description = description
-            coin_obj.homepage = homepage_value
-            coin_obj.blockchain_site = blockchain_site_value
+            coin_obj.homepage = json.dumps(homepage_value)
+            coin_obj.blockchain_site = json.dumps(blockchain_site_value)
             coin_obj.market_cap_rank = market_cap_rank
 
             coin_obj.save()

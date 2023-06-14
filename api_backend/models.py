@@ -2,6 +2,10 @@ from datetime import timedelta
 from django.db import models
 
 
+
+
+
+
 class CryptoCurrency(models.Model):
     id = models.CharField(max_length=100, primary_key=True)
     symbol = models.CharField(max_length=10)
@@ -73,15 +77,15 @@ class CryptoCurrency(models.Model):
 
 # Coin Detail
 class Coins(models.Model):
-    id = models.CharField(max_length=100, primary_key=True)
-    symbol = models.CharField(max_length=10)
+    id = models.CharField(max_length=200, primary_key=True)
+    symbol = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     block_time_in_minutes = models.PositiveIntegerField(default=0, null=True)
-    categories = models.CharField(max_length=100 , null=True)
     description = models.TextField(null=True)
-    homepage = models.CharField(max_length=100, null=True)
-    blockchain_site = models.CharField(max_length=100, null=True)
+    homepage = models.JSONField(max_length=100, null=True)
+    blockchain_site = models.JSONField(max_length=100, null=True)
     market_cap_rank = models.PositiveIntegerField(default=0)
+    categories = models.JSONField(max_length=100, null=True)
 
     def __str__(self):
         return self.name
