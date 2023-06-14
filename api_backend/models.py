@@ -50,6 +50,10 @@ class CryptoCurrency(models.Model):
     def formatted_price_change_24h(self):
         return f"{self.price_change_percentage_24h:.2f}%"
     
+    @property
+    def formatted_symbol(self):
+        return f"{self.symbol.upper()}"
+    
     
     @property 
     def formatted_last_updated(self):

@@ -3,35 +3,40 @@
 
 <h5 class="px-4 pt-4 text-xl text-gray-800 md:px-0 md:text-1xl dark:text-gray-100">Cryptocurrencies</h5>
 <div class="px-4 mt-4 md:px-0">
-    <table class="w-full">
+    <table class="w-full shrink">
         <thead class="border-b border-gray-100 dark:border-gray-700">
             <tr>
                 <th class="px-2 py-3 text-sm font-semibold text-left bg-transparent md:px-4 md:text-2xl"><div class="">Symbol</div></th>
                 <th class="px-4 py-3 text-sm font-semibold text-left bg-transparent md:text-2xl"><div class="">Price €</div></th>
-                <th class="px-4 py-3 text-sm text-left bg-transparent md:text-2xl"><div class="hidden md:flex">M Cap</div></th>
-                <th class="px-4 py-3 text-sm text-left bg-transparent md:text-2xl"><div class="hidden md:flex">Volume</div></th>
-                <th class="px-4 py-3 text-sm text-left bg-transparent md:text-2xl"><div class="">Daily</div></th>
-                <th class="px-4 py-3 text-sm text-left bg-transparent md:text-2xl"><div class="hidden md:flex">Updated</div></th>
+                <th class="px-4 py-3 text-sm font-semibold text-left bg-transparent md:text-2xl"><div class="">M Cap</div></th>
+                <th class="px-4 py-3 text-sm font-semibold text-left bg-transparent md:text-2xl"><div class="hidden md:flex">Volume</div></th>
+                <th class="px-4 py-3 text-sm font-semibold text-left bg-transparent md:text-2xl"><div class="">Daily</div></th>
+                <th class="px-4 py-3 text-sm font-semibold text-left bg-transparent md:text-2xl"><div class="hidden md:flex">Updated</div></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="shrink">
             {% for crypto in page_obj %}
             <tr class="cursor-pointer" onclick="location.href='{% url 'coin' pk=crypto.id %}'">
+                
                 <td class="px-4 py-3 font-medium border-b border-gray-4 dark:border-gray-700">
-                    <div class="flex items-baseline space-x-2 md:items-center">
-                        <img class="w-10 h-10" src="{{ crypto.image }}" alt="{{crypto.name}} Logo" />
-                        <div class="text-xs text-gray-800 md:text-1xl dark:text-gray-100">
-                            {{ crypto.name }}
+                    <div class="flex items-start">
+                        <div class="flex flex-col items-center justify-center md:px-4">
+                            <div class="py-0.5">
+                                <img class="w-10 h-10" src="{{ crypto.image }}" alt="{{crypto.name}} Logo" />
+                            </div>
+                            <div class="text-xs text-gray-800 md:text-1xl dark:text-gray-100">
+                                {{ crypto.formatted_symbol }}
+                            </div>
                         </div>
                     </div>
                 </td>
             
-                <td class="px-4 py-3 font-medium border-b border-gray-4 dark:border-gray-700">
+                <td class="px-4 py-3 font-medium border-b border-gray-4 dark:border-gray-700 min-w-fit">
                     <h5 class="text-sm tracking-tight text-gray-800 md:text-1xl dark:text-gray-400">{{ crypto.formatted_current_price }}</h5>
                 </td>
             
                 <td class="px-4 py-3 font-medium border-b border-gray-100 dark:border-gray-700">
-                    <h5 class="hidden text-sm tracking-tight text-gray-800 md:text-1xl dark:text-gray-400 md:flex">{{ crypto.formatted_market_cap }}</h5>
+                    <h5 class="text-sm tracking-tight text-gray-800 md:text-1xl dark:text-gray-400">{{ crypto.formatted_market_cap }}</h5>
                 </td>
             
                 <td class="px-4 py-3 font-medium border-b border-gray-100 dark:border-gray-700">
