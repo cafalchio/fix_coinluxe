@@ -217,7 +217,6 @@ PRODUCT_PRICE = "price_1NHoiiHDQ21gOZTqjAwPDuLt"
 SITE_ID = 1
 SITE_NAME = 'Coinluxe'
 
-
 # dealing wit warnings in python manage.py check --deploy
 if not DEBUG:
     SECURE_HSTS_SECONDS = 31536000*2
