@@ -238,6 +238,10 @@
 
 
             <div class="flex items-center md:hidden">
+                {% if user.is_authenticated %}
+                <a href="{% url 'add_credits' %}" class="text-xs"><span class="text-green-600">{{ credits }}€</span>
+                </a>
+                {% endif %}
                 <div class="px-3">
                     <a
                         href="{% url 'change_theme' %}"
