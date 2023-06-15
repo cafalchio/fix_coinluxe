@@ -1,6 +1,7 @@
 from datetime import timedelta
 import json
 from django.db import models
+from random import randint
 
 class CryptoCurrency(models.Model):
     id = models.CharField(max_length=100, primary_key=True)
@@ -44,7 +45,26 @@ class CryptoCurrency(models.Model):
         
     @property
     def formatted_price_change_24h(self):
-        return f"{self.price_change_percentage_24h:.2f}%"
+        return f"{self.price_change_percentage_24h:.2f}"
+    
+    @property
+    def selling_text(self):
+        negative_phrases = [
+            f"Buy {self.id.capitalize()} on the dip!",
+            f"Opportunity: {self.id.capitalize()} at a discount!",
+            f"Don't be discouraged! Buy {self.id.capitalize()} low."
+        ]
+        positive_phrases = [
+            f"Upward momentum: {self.id.capitalize()}. Buy now!",
+            f"Positive trend: {self.id.capitalize()} rising!",
+            f"Join the rally: Buy {self.id.capitalize()}!"
+        ]
+
+        if float(self.formatted_price_change_24h) < 0:
+            return negative_phrases[randint(0,2)]
+        else:
+            return positive_phrases[randint(0,2)]
+        
     
     @property
     def formatted_symbol(self):
@@ -92,19 +112,19 @@ class Coins(models.Model):
         return f"{self.symbol.upper()}"
     
     @property
-    def formatted_homepages(self):
+    def formatted_homepage(self):
         homepage_list = json.loads(self.homepage)
         return homepage_list[0]
     
     @property
     def formatted_categories(self):
         categories = json.loads(self.categories)
-        return categories[0]
+        return categories
     
     @property
     def formatted_blockchain_site(self):
-        blockchain_site = json.loads(self.blockchain_site)
-        return blockchain_site[0]
+        blockchain_sites = json.loads(self.blockchain_site)
+        return blockchain_sites[0]
 
     def __str__(self):
         return self.name

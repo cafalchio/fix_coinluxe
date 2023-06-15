@@ -16,19 +16,40 @@
             </div>
         </div>
         <div class="flex items-center">
-            <bold class="p-1 text-xs text-justify text-gray-400">Rank {{ crypto.market_cap_rank }}#</bold>
+            <bold class="p-1 mr-2 text-xs text-justify text-gray-400 md:text-2xl">Rank {{ crypto.market_cap_rank }}#</bold>
         </div>
     </div>
-    <div class="flex py-1 ml-1 md-2">
-        <p class="text-sm break-words md:text-2xl">{{ coin.name }} is positioned at position <bold>{{ crypto.market_cap_rank }}</bold> in market cap rank.</p>
-    </div>
-    <div class="w-full">
+    <a href={{ coin.formatted_homepage }} target="_blank" class="p-4 py-2 mr-2 text-xs text-justify md:text-sm">
+        {{ coin.formatted_homepage }} 
+    </a>
+    <div class="w-full shadow-sm">
         {{ chart|safe }}
     </div>
-    <div class="text-lg font-bold">Description:</div>
-    <div class="justify-center text-justify">{{coin.description|safe}}</div>
+    <div class="flex flex-row items-center justify-center">
+        {% if crypto.formatted_price_change_24h > 0 %}
+        <p class="font-bold text-green-500">{{coin.name }} is up {{crypto.formatted_price_change_24h}}%</p>
+        {% else %}
+        <p class="font-bold text-red-500">{{coin.name }} is down {{crypto.formatted_price_change_24h}}%</p>
+        {% endif %}
+    </div>
+
+    <div class="flex flex-row items-center justify-center py-2">
+    <form>
+        <button class="px-4 py-2 text-xs font-bold text-white bg-green-600 rounded-lg hover:bg-green-700">
+            Buy {{crypto.formatted_symbol}}
+        </button>
+    </form>
+    </div>
+    <div class="flex flex-row items-center justify-center py-2"> {{crypto.selling_text}}</div>
+    </br>
+    <div class="flex py-2 font-bold md:text-2xl">Description:</div>
+    <div class="justify-center py-2 text-sm text-justify md:text-xl">{{coin.description|safe}}</div>
+    <div class="flex font-bold md:text-2xl">Blockchain Site: </div>
+    <a href={{ coin.formatted_blockchain_site  }} target="_blank" class="p-4 py-2 mr-2 text-sm text-justify text-gray-700 md:text">
+        {{ coin.formatted_blockchain_site }} 
+    </a>
+    
+
+
 </div>
-
-
-
 {% endblock %}
