@@ -79,16 +79,10 @@ class CoinDetailView(DetailView):
                           'zoom', 'pan', 'select', 'lasso2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toImage'])
         fig.update_layout()
         config = {'displayModeBar': False, 'displaylogo': False}
-
         chart = fig.to_html(config)
-        with open("fig.html", "w") as f:
-            f.write(chart)
-        
-
         # Create and add the form to the context
         form = DateForm()
         context['form'] = form
-
         # Add the chart and coin object to the context
         context['chart'] = chart
         context['coin'] = coin
