@@ -4,7 +4,6 @@ from coinluxe import settings
 from theme.views import change_theme
 from django.conf.urls.static import static
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
@@ -13,3 +12,6 @@ urlpatterns = [
     path('cryptos/', include('api_backend.urls')),
     path('portifolio/', include('portifolio.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+handler404 = 'coinluxe.views.handler404'
