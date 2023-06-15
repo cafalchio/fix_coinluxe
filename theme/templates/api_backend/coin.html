@@ -1,24 +1,31 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 
 
+
 <div class="container p-4 mx-auto">
-    <div class="flex flex-row items-center justify-start space-x-2 font-bold">
-        <div class="pt-1">
-            <img src="{{ MEDIA_URL }}coin_images/{{ coin.id }}.png" alt="{{ coin.name }}" class="w-10 h-10 md:w-24 md:h-24">
+    <div class="flex flex-row items-center justify-between space-x-2 font-bold">
+        <div class="flex items-center">
+            <div class="px-2 pt-1">
+                <img src="{{ MEDIA_URL }}coin_images/{{ coin.id }}.png" alt="{{ coin.name }}" class="w-10 h-10 md:w-24 md:h-24">
+            </div>
+            <div class="">
+                <p class="text-sm break-words md:text-3xl">{{ coin.name }}</p>
+            </div>
+            <div class="">
+                <p class="text-sm break-words md:text-3xl">({{ coin.formatted_symbol }})</p>
+            </div>
         </div>
-        <div class="">
-            <p class="text-sm break-words md:text-3xl">{{ coin.name }}</p>
-        </div>
-        <div class="">
-            <p class="text-sm break-words md:text-3xl">({{ coin.formatted_symbol }})</p>
+        <div class="flex items-center">
+            <bold class="p-1 text-xs text-justify text-gray-400">Rank {{ crypto.market_cap_rank }}#</bold>
         </div>
     </div>
     <div class="flex py-1 ml-1 md-2">
-        <p class="text-sm break-words md:text-2xl">{{coin.name}} is position at {{crypto.market_cap_rank}} </p>
+        <p class="text-sm break-words md:text-2xl">{{ coin.name }} is positioned at position <bold>{{ crypto.market_cap_rank }}</bold> in market cap rank.</p>
     </div>
-    <div class="w-full ">
-    {{chart|safe}}
+    <div class="w-full">
+        {{ chart|safe }}
     </div>
 </div>
+
 
 {% endblock %}
