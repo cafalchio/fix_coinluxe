@@ -214,7 +214,6 @@ STRIPE_WEBHOOK_SECRET_TEST = os.environ.get("STRIPE_WEBHOOK_SECRET_TEST")
 REDIRECT_DOMAIN = "https://coinluxe.herokuapp.com/portifolio"
 PRODUCT_PRICE = "price_1NHoiiHDQ21gOZTqjAwPDuLt"
 
-SITE_ID = 1
 SITE_NAME = 'Coinluxe'
 
 # dealing wit warnings in python manage.py check --deploy
