@@ -13,11 +13,10 @@
             <p class="text-sm break-words md:text-3xl">({{ coin.formatted_symbol }})</p>
         </div>
     </div>
-    <div class="py-1 ml-1 md-2">
-        <p class="text-sm break-words md:text-2xl">{{ coin.formatted_categories }}</p>
+    <div class="flex py-1 ml-1 md-2">
+        <p class="text-sm break-words md:text-2xl">{{coin.name}} is position at {{crypto.market_cap_rank}} </p>
     </div>
-
-    <div class="mx-auto">
+    <div class="w-full ">
     {{chart|safe}}
     </div>
 </div>

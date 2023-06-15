@@ -1,12 +1,8 @@
-import json
-from typing import Any, Dict
-from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 import pandas as pd
 from .models import Coins, CryptoCurrency, PriceUpdate
 from django.db.models import Q
 import plotly.express as px
-from .forms import DateForm
 
 
 class CryptoListView(ListView):
@@ -30,31 +26,30 @@ class CryptoListView(ListView):
 class CoinDetailView(DetailView):
     model = Coins
     template_name = "api_backend/coin.html"
-    context_object_name = 'coin'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Get the coin object
-        coin = self.object
-
-        # Perform necessary data processing and chart creation
+        # Get models data
         coin = Coins.objects.get(id=self.kwargs.get("pk"))
         price = PriceUpdate.objects.get(id=coin.id)
+        crypto = CryptoCurrency.objects.get(id=coin.id)
+        
         df = pd.DataFrame(price.formatted_price_time)
         df.columns = ["date", "price"]
         df.date = pd.to_datetime(df.date, unit='ms')
-        print(df.head())
         fig = px.line(
             x=df.date,
             y=df.price,
-            title=f"{coin} Price €",
+            title=f"{coin}",
 
-            labels={'x': 'Date', 'y': 'Price €'}
+            labels={'x': '', 'y': 'Price €'},
+            color_discrete_sequence=[ "green"],
+            
         )
         fig.update_layout(
             title={
-                'font_size': 24,
+                'font_size': 22,
                 'xanchor': 'center',
                 'x': 0.5
             },
@@ -74,17 +69,16 @@ class CoinDetailView(DetailView):
                 ])
             )
         )
-
+        fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='#9CA3AF', title_font_color="#9CA3AF", title_font_size=18)
+        fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='#9CA3AF', title_font_color="#9CA3AF", title_font_size=18)
         fig.update_layout(modebar_remove=[
                           'zoom', 'pan', 'select', 'lasso2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toImage'])
         fig.update_layout()
         config = {'displayModeBar': False, 'displaylogo': False}
         chart = fig.to_html(config)
-        # Create and add the form to the context
-        form = DateForm()
-        context['form'] = form
-        # Add the chart and coin object to the context
+        # contexts
         context['chart'] = chart
         context['coin'] = coin
+        context['crypto'] = crypto
 
         return context
