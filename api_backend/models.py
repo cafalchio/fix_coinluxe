@@ -2,11 +2,6 @@ from datetime import timedelta
 import json
 from django.db import models
 
-
-
-
-
-
 class CryptoCurrency(models.Model):
     id = models.CharField(max_length=100, primary_key=True)
     symbol = models.CharField(max_length=10)
@@ -116,9 +111,9 @@ class Coins(models.Model):
     
     
     
-    class PriceUpdate(models.Model):
-        coin = models.ForeignKey('Coins', on_delete=models.CASCADE)
-        price_time = models.JSONField(max_length=365, null=True)
+class PriceUpdate(models.Model):
+    id = models.CharField(max_length=200, primary_key=True)
+    price_time = models.JSONField(max_length=365, null=True)
 
-        def __str__(self):
-            return f"Coin: {self.coin}, Price: {self.price}, Date: {self.date}"
+    def __str__(self):
+        return f"Coin: {self.coin}, Price: {self.price}, Date: {self.date}"
