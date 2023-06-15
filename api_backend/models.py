@@ -48,6 +48,10 @@ class CryptoCurrency(models.Model):
         return f"{self.price_change_percentage_24h:.2f}"
     
     @property
+    def integer_24h_change(self):
+        return int(float(self.formatted_price_change_24h) * 100)
+    
+    @property
     def selling_text(self):
         negative_phrases = [
             f"Buy {self.id.capitalize()} on the dip!",
@@ -59,8 +63,7 @@ class CryptoCurrency(models.Model):
             f"Positive trend: {self.id.capitalize()} rising!",
             f"Join the rally: Buy {self.id.capitalize()}!"
         ]
-
-        if float(self.formatted_price_change_24h) < 0:
+        if self.integer_24h_change < 0:
             return negative_phrases[randint(0,2)]
         else:
             return positive_phrases[randint(0,2)]
