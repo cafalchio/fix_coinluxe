@@ -41,11 +41,8 @@ class CoinDetailView(DetailView):
         fig = px.line(
             x=df.date,
             y=df.price,
-            title=f"{coin}",
-
             labels={'x': '', 'y': 'Price €'},
             color_discrete_sequence=[ "green"],
-            
         )
         fig.update_layout(
             title={
@@ -56,6 +53,7 @@ class CoinDetailView(DetailView):
             paper_bgcolor='rgba(0, 0, 0, 0)',
             plot_bgcolor='rgba(0, 0, 0, 0)',
         )
+        
         fig.update_xaxes(rangeslider_visible=True)
         fig.update_xaxes(
             rangeslider_visible=True,
