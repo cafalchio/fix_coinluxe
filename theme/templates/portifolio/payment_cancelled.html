@@ -4,22 +4,21 @@
 {% block content %}
 <div class="container flex items-center justify-center min-h-screen px-4 pt-8 mx-auto text-gray-800 dark:text-gray-200">
     <div class="w-full max-w-md px-4 py-8 mx-auto shadow-md">
-        <h2 class="mb-4 text-2xl font-semibold">Payment Cancelled</h2>
-
-        <div class="p-4 mb-4 text-gray-800 dark:text-gray-200">
-            <p class="font-semibold text-gray-800 dark:text-gray-200">Payment was cancelled</p>
-            <p class="mt-2">Your payment was not completed. If you wish to try again, you can click the button below to add credits to your account.</p>
-        </div>
-        <br/>
-        <br/>
-
-        <form enctype="multipart/form-data" method="post" role="product_page">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button class="px-4 py-2 mt-4 font-bold text-white bg-green-500 rounded-md hover:bg-green-700">
-              Add Credits and Buy Crypto
-            </button>
-        </form>
+    <h2 class="mb-4 text-2xl font-semibold text-red-700">Payment CANCELED</h2>
+    
+    <div class="p-4 mb-4 bg-green-100 border-l-4 dark:bg-gray-900">      
+      <p class="mt-2">If you would like to try again, please click in the button below.</p>
     </div>
+    <br/>
+    <br/>
+    
+    <form enctype="multipart/form-data" method="post" role="product_page">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="px-4 py-2 mt-4 font-bold text-white bg-green-500 rounded-md hover:bg-green-700">
+          Add Credits and Buy Crypto
+        </button>
+      </form>
+  </div>
 </div>
 {% endblock %}
