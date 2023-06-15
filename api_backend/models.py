@@ -1,4 +1,5 @@
 from datetime import timedelta
+import json
 from django.db import models
 
 
@@ -94,6 +95,30 @@ class Coins(models.Model):
     @property
     def formatted_symbol(self):
         return f"{self.symbol.upper()}"
+    
+    @property
+    def formatted_homepages(self):
+        homepage_list = json.loads(self.homepage)
+        return homepage_list[0]
+    
+    @property
+    def formatted_categories(self):
+        categories = json.loads(self.categories)
+        return categories[0]
+    
+    @property
+    def formatted_blockchain_site(self):
+        blockchain_site = json.loads(self.blockchain_site)
+        return blockchain_site[0]
 
     def __str__(self):
         return self.name
+    
+    
+    
+    class PriceUpdate(models.Model):
+        coin = models.ForeignKey('Coins', on_delete=models.CASCADE)
+        price_time = models.JSONField(max_length=365, null=True)
+
+        def __str__(self):
+            return f"Coin: {self.coin}, Price: {self.price}, Date: {self.date}"
