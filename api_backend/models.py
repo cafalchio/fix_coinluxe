@@ -114,6 +114,11 @@ class Coins(models.Model):
 class PriceUpdate(models.Model):
     id = models.CharField(max_length=200, primary_key=True)
     price_time = models.JSONField(max_length=365, null=True)
+    
+    @property
+    def formatted_price_time(self):
+        price_time = json.loads(self.price_time)
+        return price_time
 
     def __str__(self):
         return f"Coin: {self.coin}, Price: {self.price}, Date: {self.date}"

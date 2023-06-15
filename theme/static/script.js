@@ -14,3 +14,9 @@ document.addEventListener("click", (event) => {
       menu.classList.add("hidden");
     }
 });
+
+// config graphs
+const config_graps = () => {
+  var modebarButton = document.querySelector('.modebar-group');
+  modebarGroup.classList.add('bg-transparent');
+}
