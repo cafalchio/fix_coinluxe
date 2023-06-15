@@ -63,7 +63,7 @@ class CryptoCurrency(models.Model):
             f"Positive trend: {self.id.capitalize()} rising!",
             f"Join the rally: Buy {self.id.capitalize()}!"
         ]
-        if self.integer_24h_change < 0:
+        if int(float(self.formatted_price_change_24h) * 100) < 0:
             return negative_phrases[randint(0,2)]
         else:
             return positive_phrases[randint(0,2)]

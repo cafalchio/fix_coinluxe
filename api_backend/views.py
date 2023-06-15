@@ -74,7 +74,6 @@ class CoinDetailView(DetailView):
         fig.update_layout()
         config = {'displayModeBar': False, 'displaylogo': False}
         chart = fig.to_html(config)
-     
         # contexts
         context['chart'] = chart
         context['coin'] = coin
