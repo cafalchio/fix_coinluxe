@@ -59,7 +59,7 @@ class CryptoCurrency(models.Model):
             f"Don't be discouraged! Buy {self.id.capitalize()} low."
         ]
         positive_phrases = [
-            f"Upward momentum: {self.id.capitalize()}. Buy now!",
+            f"Upward momentum for {self.id.capitalize()}. Buy now!",
             f"Positive trend: {self.id.capitalize()} rising!",
             f"Join the rally: Buy {self.id.capitalize()}!"
         ]

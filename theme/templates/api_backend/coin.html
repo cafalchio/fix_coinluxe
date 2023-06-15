@@ -10,15 +10,16 @@
             </div>
             <div class="text-gray-800 dark:text-gray-200">
                 <p class="text-sm break-words md:text-3xl">{{ coin.name }}</p>
-            </div>
-            <div class="text-gray-800 dark:text-gray-200">
                 <p class="text-sm break-words md:text-3xl">({{ coin.formatted_symbol }})</p>
             </div>
         </div>
-        <div class="flex items-center">
-            <bold class="p-1 mr-2 text-xs text-justify text-gray-400 md:text-2xl">Rank {{ crypto.market_cap_rank }}#</bold>
+        <div class="flex flex-col items-center py-2 ">
+            <bold class="mr-2 text-xs text-gray-400 md:text-2xl">Rank {{ crypto.market_cap_rank }}#</bold>
+            <p class="mr-2 text-xs text-gray-800 dark:text-gray-200 md:text-2xl">1 {{ coin.formatted_symbol }} = {{ crypto.formatted_current_price }} €</p>
         </div>
     </div>
+    
+
     <a href={{ coin.formatted_homepage }} target="_blank" class="p-4 py-2 mr-2 text-xs text-justify md:text-sm">
         {{ coin.formatted_homepage }} 
     </a>
