@@ -33,10 +33,10 @@ class Command(BaseCommand):
             symbol = coin["symbol"]
             name = coin["name"]
             block_time_in_minutes = coin["block_time_in_minutes"]
-            categories = coin.get("categories", [])  
+            categories = coin["categories"]
             description = coin["description"]['en']
-            homepage = coin.get("homepage", []) 
-            blockchain_site = coin.get("blockchain_site", [])  
+            homepage = coin["links"]["homepage"]
+            blockchain_site = coin["links"]["blockchain_site"] 
             market_cap_rank = coin["market_cap_rank"]
             homepage_value = homepage if homepage else None
             blockchain_site_value = blockchain_site if blockchain_site else None
