@@ -22,7 +22,7 @@ class Command(BaseCommand):
         for coin in coin_data:
             if settings.DEBUG:
                 coin_id = coin['id']
-            response = requests.get(coingecko + f'{coin}/market_chart?vs_currency=eur&days=365')
+            response = requests.get(f"https://api.coingecko.com/api/v3/coins/{coin_id}/market_chart?vs_currency=eur&days=365")
             if response.status_code != 200:
                 self.stdout.write(self.style.ERROR('Failed to retrieve data from the endpoint.'))
                 return
