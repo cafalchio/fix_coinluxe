@@ -105,11 +105,13 @@ def stripe_webhook(request):
 
 
 @login_required(login_url="account_login")
-def buy_crypto(request):
+def buy_crypto(request, pk):
+    user = request.user
+    credit, _ = Credits.objects.get_or_create(user=user) 
+    crypto = get_object_or_404(CryptoCurrency, id=pk)
     if request.method == 'POST':
         form = BuyCryptoForm(request.POST)
         if form.is_valid():
-            user = request.user
             crypto_id = form.cleaned_data['crypto_id']
             amount = form.cleaned_data['amount']
             portfolio, _ = Portfolio.objects.get_or_create(owner=user)
@@ -117,9 +119,9 @@ def buy_crypto(request):
             holding, _ = Holding.objects.get_or_create(portfolio=portfolio, cryptocurrency=crypto)
             holding.amount += float(amount)
             holding.save()
-            return render(request, 'portifolio/buy_crypto.html')
+            return render(request, 'portifolio/buy_crypto.html', {'crypto': crypto, 'credit': credit})
     else:
         form = BuyCryptoForm()
 
-    return render(request, 'portifolio/buy_crypto.html', {'form': form})
+    return render(request, 'portifolio/buy_crypto.html', {'form': form, 'crypto': crypto, 'credit': credit})
 
