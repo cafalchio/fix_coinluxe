@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class Credits(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=2 , null=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2 , null=True, default=0)
 
 
 class Portfolio(models.Model):
@@ -17,5 +17,5 @@ class Holding(models.Model):
     cryptocurrency = models.ForeignKey(
         "api_backend.CryptoCurrency", on_delete=models.CASCADE
     )
-    amount = models.FloatField(null=True)
+    amount = models.FloatField(null=True, default=0)
 

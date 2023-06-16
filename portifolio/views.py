@@ -7,10 +7,11 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 import stripe
-
+from decimal import Decimal
 from api_backend.models import CryptoCurrency
 from portifolio.forms import BuyCryptoForm
 from .models import Credits, Holding, Portfolio
+from django.views.generic import TemplateView
 
 register = template.Library()
 
@@ -107,26 +108,54 @@ def stripe_webhook(request):
 @login_required(login_url="account_login")
 def buy_crypto(request, pk):
     user = request.user
-    credit, _ = Credits.objects.get_or_create(user=user) 
+    credit, _ = Credits.objects.get_or_create(user=user)
     crypto = get_object_or_404(CryptoCurrency, id=pk)
     if request.method == 'POST':
         form = BuyCryptoForm(request.POST)
         if form.is_valid():
-            crypto_id = form.cleaned_data['crypto_id']
             amount = form.cleaned_data['amount']
             price = crypto.current_price * float(amount)  # Calculate the total purchase price
             portfolio, _ = Portfolio.objects.get_or_create(owner=user)
-            holding, _ = Holding.objects.get_or_create(portfolio=portfolio, cryptocurrency=crypto)
-            holding.amount += float(amount)
+            holding, created = Holding.objects.get_or_create(portfolio=portfolio, cryptocurrency=crypto)
+            if not holding.amount:
+                holding.amount = 0
+            if created:
+                holding.amount = float(amount)
+            else:
+                holding.amount += float(amount)
             holding.save()
             
-            # Deduct the credits used for the purchase
-            credit.amount -= price
+            credit.amount -= Decimal(price)
             credit.save()
             
-            return render(request, 'portifolio/buy_crypto.html', {'crypto': crypto, 'credit': credit})
+            return redirect('portfolio')
+        
     else:
         form = BuyCryptoForm()
 
     return render(request, 'portifolio/buy_crypto.html', {'form': form, 'crypto': crypto, 'credit': credit})
 
+@login_required(login_url="account_login")
+def portfolio_view(request):
+    template_name = "portifolio/portifolio.html"
+    user = request.user
+    try:
+        portfolio = Portfolio.objects.get(owner=user)
+    except Portfolio.DoesNotExist:
+        portfolio = Portfolio.objects.create(owner=user)
+    if portfolio:
+        holdings = Holding.objects.filter(portfolio=portfolio)
+        crypto_data = []
+        for holding in holdings:
+            crypto_data.append({
+                'crypto': holding.cryptocurrency,
+                'amount': holding.amount
+            })
+    else:
+        crypto_data = []
+    
+    context = {'crypto_data': crypto_data}
+    return render(request, template_name, context)
+
+
+    
