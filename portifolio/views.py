@@ -6,10 +6,10 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import DetailView
 import stripe
 
-from models import CryptoCurrency
+from api_backend.models import CryptoCurrency
+from portifolio.forms import BuyCryptoForm
 from .models import Credits, Holding, Portfolio
 
 register = template.Library()
@@ -106,13 +106,20 @@ def stripe_webhook(request):
 
 @login_required(login_url="account_login")
 def buy_crypto(request):
-    user = request.user
-    crypto_id = request.POST.get('crypto_id')
-    amount = request.POST.get('amount')
-    portfolio, _ = Portfolio.objects.get_or_create(owner=user)
-    crypto = get_object_or_404(CryptoCurrency, id=crypto_id)
-    holding, _ = Holding.objects.get_or_create(portfolio=portfolio, cryptocurrency=crypto)
-    holding.amount += float(amount)
-    holding.save()
-    return render(request, 'buy_crypto.html')
+    if request.method == 'POST':
+        form = BuyCryptoForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            crypto_id = form.cleaned_data['crypto_id']
+            amount = form.cleaned_data['amount']
+            portfolio, _ = Portfolio.objects.get_or_create(owner=user)
+            crypto = get_object_or_404(CryptoCurrency, id=crypto_id)
+            holding, _ = Holding.objects.get_or_create(portfolio=portfolio, cryptocurrency=crypto)
+            holding.amount += float(amount)
+            holding.save()
+            return render(request, 'portifolio/buy_crypto.html')
+    else:
+        form = BuyCryptoForm()
+
+    return render(request, 'portifolio/buy_crypto.html', {'form': form})
 
