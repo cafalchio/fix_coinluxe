@@ -5,7 +5,7 @@
     {% if user.is_authenticated %}
         <div class="container p-4 mx-auto">
             <h1 class="mb-4 text-2xl font-bold">{{ crypto.name }}</h1>
-            <h2 class="mb-4 text-2xl font-semibold">€ {{ crypto.formatted_current_price }}</h2>
+            <h2 class="mb-4 text-2xl font-semibold">€ {{ crypto.current_price }}</h2>
             <form method="post" class="max-w-xs" id="buyCryptoForm">
                 {% csrf_token %}
                 <div class="mb-4 text-gray-900">
