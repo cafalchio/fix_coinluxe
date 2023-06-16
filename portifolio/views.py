@@ -114,7 +114,7 @@ def buy_crypto(request, pk):
         form = BuyCryptoForm(request.POST)
         if form.is_valid():
             amount = form.cleaned_data['amount']
-            price = crypto.current_price * float(amount)  # Calculate the total purchase price
+            price = crypto.current_price * float(amount)  # total price
             portfolio, _ = Portfolio.objects.get_or_create(owner=user)
             holding, created = Holding.objects.get_or_create(portfolio=portfolio, cryptocurrency=crypto)
             if not holding.amount:
