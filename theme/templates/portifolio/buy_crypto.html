@@ -9,6 +9,7 @@
             <form method="post" class="max-w-xs" id="buyCryptoForm">
                 {% csrf_token %}
                 <div class="mb-4 text-gray-900">
+                    <input type="hidden" id="id_crypto_id" name="crypto_id" value="{{ crypto.id }}">
                     <label for="id_amount" class="block mb-2 font-semibold">Amount:</label>
                     <input type="{{ form.amount.field.widget.input_type }}" id="id_amount" name="{{ form.amount.html_name }}" step="any" class="font-bold text-gray-800 bg-gray-400 rounded-md form-input">
                 </div>
@@ -16,6 +17,7 @@
                     Buy {{ crypto.formatted_symbol }}
                 </button>
             </form>
+            
             
         </div>
         <script>
