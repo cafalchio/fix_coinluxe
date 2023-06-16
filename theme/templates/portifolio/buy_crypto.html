@@ -8,14 +8,15 @@
             <h2 class="mb-4 text-2xl font-semibold">€ {{ crypto.formatted_current_price }}</h2>
             <form method="post" class="max-w-xs" id="buyCryptoForm">
                 {% csrf_token %}
-                <div class="mb-4">
+                <div class="mb-4 text-gray-900">
                     <label for="id_amount" class="block mb-2 font-semibold">Amount:</label>
-                    {{ form.amount }}
+                    <input type="{{ form.amount.field.widget.input_type }}" id="id_amount" name="{{ form.amount.html_name }}" step="any" class="font-bold text-gray-800 bg-gray-400 rounded-md form-input">
                 </div>
                 <button type="submit" class="px-4 py-2 font-bold text-white bg-green-600 rounded hover:bg-green-700">
                     Buy {{ crypto.formatted_symbol }}
                 </button>
             </form>
+            
         </div>
         <script>
             //check the credit
@@ -27,11 +28,15 @@
                 const totalCost = price * amount;
                 const credit = parseFloat('{{ credit.amount }}');
                 if (totalCost <= credit) {
-                    form.submit();  
+                    const confirmation = confirm(`Do you want to confirm the purchase of ${amount} coins for ${totalCost} price?`);
+                    if (confirmation) {
+                        form.submit();
+                    }
                 } else {
                     alert('Sorry insufficient credit, please add credit to complete this order.'); 
                 }
             });
         </script>
+        
     {% endif %}
 {% endblock content %}
