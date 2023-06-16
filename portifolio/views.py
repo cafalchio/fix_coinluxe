@@ -3,11 +3,14 @@ from django import template
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import DetailView
 import stripe
-from .models import Credits
+
+from models import CryptoCurrency
+from .models import Credits, Holding, Portfolio
 
 register = template.Library()
 
@@ -22,7 +25,7 @@ def get_credits(request):
 # https://www.youtube.com/watch?v=hZYWtK2k1P8&t=222s
 
 
-@login_required(login_url="login")
+@login_required(login_url="account_login")
 def add_credits(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY_TEST
     metadata = {"user_id": str(request.user.id)} 
@@ -101,4 +104,15 @@ def stripe_webhook(request):
     return HttpResponse(status=200)
 
 
-    
+@login_required(login_url="account_login")
+def buy_crypto(request):
+    user = request.user
+    crypto_id = request.POST.get('crypto_id')
+    amount = request.POST.get('amount')
+    portfolio, _ = Portfolio.objects.get_or_create(owner=user)
+    crypto = get_object_or_404(CryptoCurrency, id=crypto_id)
+    holding, _ = Holding.objects.get_or_create(portfolio=portfolio, cryptocurrency=crypto)
+    holding.amount += float(amount)
+    holding.save()
+    return render(request, 'buy_crypto.html')
+

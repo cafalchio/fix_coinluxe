@@ -1,8 +1,9 @@
 from django.views.generic import ListView, DetailView
-import pandas as pd
-from .models import Coins, CryptoCurrency, PriceUpdate
 from django.db.models import Q
-import plotly.express as px
+import pandas as pd
+from .utils import plot_chart
+from .models import Coins, CryptoCurrency, PriceUpdate
+
 
 
 class CryptoListView(ListView):
@@ -35,45 +36,12 @@ class CoinDetailView(DetailView):
         price = PriceUpdate.objects.get(id=coin.id)
         crypto = CryptoCurrency.objects.get(id=coin.id)
         
+        # processing data
         df = pd.DataFrame(price.formatted_price_time)
         df.columns = ["date", "price"]
         df.date = pd.to_datetime(df.date, unit='ms')
-        fig = px.line(
-            x=df.date,
-            y=df.price,
-            labels={'x': '', 'y': 'Price €'},
-            color_discrete_sequence=[ "green"],
-        )
-        fig.update_layout(
-            title={
-                'font_size': 22,
-                'xanchor': 'center',
-                'x': 0.5
-            },
-            paper_bgcolor='rgba(0, 0, 0, 0)',
-            plot_bgcolor='rgba(0, 0, 0, 0)',
-        )
+        chart = plot_chart(df)
         
-        fig.update_xaxes(rangeslider_visible=True)
-        fig.update_xaxes(
-            rangeslider_visible=True,
-            rangeselector=dict(
-                buttons=list([
-                    dict(count=1, label="1m", step="month", stepmode="backward"),
-                    dict(count=6, label="6m", step="month", stepmode="backward"),
-                    dict(count=1, label="YTD", step="year", stepmode="todate"),
-                    dict(count=1, label="1y", step="year", stepmode="backward"),
-                    dict(step="all")
-                ])
-            )
-        )
-        fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='#9CA3AF', title_font_color="#9CA3AF", title_font_size=18)
-        fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='#9CA3AF', title_font_color="#9CA3AF", title_font_size=18)
-        fig.update_layout(modebar_remove=[
-                          'zoom', 'pan', 'select', 'lasso2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d', 'toImage'])
-        fig.update_layout()
-        config = {'displayModeBar': False, 'displaylogo': False}
-        chart = fig.to_html(config)
         # contexts
         context['chart'] = chart
         context['coin'] = coin
