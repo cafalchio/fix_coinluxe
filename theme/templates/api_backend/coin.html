@@ -33,7 +33,10 @@
         <p class="font-bold text-red-500">{{coin.name }} is down {{crypto.formatted_price_change_24h}}%</p>
         {% endif %}
     </div>
-    
+    {% block buy_crypto %}
+
+    {% include 'portifolio/buy_crypto.html' %}
+    {% endblock buy_crypto %}
     
     </br>
     <hr class="p-2">
