@@ -128,7 +128,7 @@ def buy_crypto(request, pk):
             credit.amount -= Decimal(price)
             credit.save()
             
-            return redirect('portifolio')
+            return redirect('portfolio')
         
     else:
         form = BuyCryptoForm()
@@ -156,7 +156,7 @@ def sell_crypto(request, pk):
             credit.amount += Decimal(price) - (Decimal(price)/100) * 2
             credit.save()
             
-            return redirect('portfolio')
+            return redirect('portifolio')
         
     else:
         form = SellCryptoForm()
