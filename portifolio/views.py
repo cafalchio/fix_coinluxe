@@ -55,10 +55,11 @@ def payment_successful(request):
     checkout_session_id = request.GET.get("session_id", None)
     session = stripe.checkout.Session.retrieve(checkout_session_id)
     customer = stripe.Customer.retrieve(session.customer)
+    credits = Credits.objects.get(user=request.user)
     if settings.DEBUG:
         print(f"{session} -> Session ID")
         print(f"{customer} -> costumer ")
-    return render(request, "portifolio/payment_successful.html", {"customer": customer})
+    return render(request, "portifolio/payment_successful.html", {"customer": customer}, {"credits": credits})
 
 
 def payment_cancelled(request):
@@ -124,12 +125,9 @@ def buy_crypto(request, pk):
             else:
                 holding.amount += float(amount)
             holding.save()
-            
             credit.amount -= Decimal(price)
             credit.save()
-            
             return redirect('portfolio')
-        
     else:
         form = BuyCryptoForm()
 
@@ -189,4 +187,8 @@ def portfolio_view(request):
     return render(request, template_name, context)
 
 
+
+def success(request):
+    credits = Credits.objects.get(user=request.user)
+    return render(request, 'success.html', {'credits': credits})
     
