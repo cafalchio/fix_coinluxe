@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView
+from portifolio.models import Credits
 
-from products.forms import ProductForm
+from products.forms import BuyProductForm, ProductForm
 from .models import Product
 
 
@@ -18,11 +19,8 @@ class ProductDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Get models data
         product = Product.objects.get(id=self.kwargs.get("pk"))
-        # Add context
         context['product'] = product
-
         return context
 
 @login_required
@@ -95,3 +93,34 @@ def delete_product(request, product_id):
     product.delete()
     messages.success(request, 'Product deleted!')
     return redirect(reverse('products'))
+
+
+@login_required
+def buy_product(request, pk):
+    product = get_object_or_404(Product, id=pk)
+    credits = get_object_or_404(Credits, user=request.user.id)
+    
+    if request.method == 'POST':
+        form = BuyProductForm(request.POST)
+        if form.is_valid():
+            price = product.price
+            quantity = form.cleaned_data['quantity']
+            
+            if (quantity * price <= credits.amount) and product.quantity >= quantity:
+                product.quantity -= quantity
+                product.save()
+                
+                total_cost = quantity * price
+                credits.amount -= total_cost
+                credits.save()
+                
+                return redirect('success')
+    else:
+        form = BuyProductForm()
+
+    return render(request, 'products/buy_product.html', {'form': form, 'product': product})
+
+
+def success(request):
+    return render(request, 'products/success.html')
+

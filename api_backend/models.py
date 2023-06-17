@@ -32,6 +32,12 @@ class CryptoCurrency(models.Model):
 
     @property
     def formatted_current_price(self):
+        if self.current_price < 1 and self.current_price >0.1:
+            return '{:,.3f}'.format(self.current_price)
+        elif self.current_price < 0.1 and self.current_price >0.01:
+            return '{:,.4f}'.format(self.current_price)
+        elif self.current_price < 0.01:
+            return '{:,.6f}'.format(self.current_price)
         return '{:,.2f}'.format(self.current_price)
 
     @property
