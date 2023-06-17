@@ -28,9 +28,9 @@
     </div>
     <div class="flex flex-row items-center justify-center">
         {% if crypto.integer_24h_change > 0 %}
-        <p class="font-bold text-green-500">{{coin.name }} is up {{crypto.formatted_price_change_24h}}%</p>
+        <p class="font-bold text-green-500 ">{{coin.name }} is up {{crypto.formatted_price_change_24h}}%</p>
         {% else %}
-        <p class="font-bold text-red-500">{{coin.name }} is down {{crypto.formatted_price_change_24h}}%</p>
+        <p class="font-bold text-red-500 ">{{coin.name }} is down {{crypto.formatted_price_change_24h}}%</p>
         {% endif %}
     </div>
     <div class="flex flex-row items-center justify-center py-2">
