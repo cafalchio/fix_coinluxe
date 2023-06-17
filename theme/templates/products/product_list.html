@@ -19,7 +19,7 @@
                     <a href="{% url 'edit_product' product_id=product.pk %}" class="px-4 py-2 text-xs font-bold text-gray-800 bg-gray-200 rounded-lg md:text">
                         Edit
                     </a>
-                    <a href="{% url 'delete_product' product_id=product.pk %}" class="px-4 py-2 text-xs font-bold text-gray-800 bg-gray-200 rounded-lg md:text">
+                    <a href="{% url 'delete_product' product_id=product.pk %}" class="px-4 py-2 text-xs font-bold text-gray-800 bg-red-500 rounded-lg md:text">
                         Delete
                     </a>
                 {% endif %}
@@ -27,7 +27,8 @@
         </div>
     </div>
 {% endfor %}
-        
-    
+{% if user.is_superuser %}    
+<a class="px-4 py-2 text-xs font-bold text-gray-800 bg-gray-200 rounded-lg md:text" href="{% url 'add_product' %}">Add Product</a>
+{% endif %}
 </div>
 {% endblock %}

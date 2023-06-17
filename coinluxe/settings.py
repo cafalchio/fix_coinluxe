@@ -43,6 +43,8 @@ INSTALLED_APPS = [
 
     # tailwind
     'tailwind',
+    "crispy_forms",
+    "crispy_tailwind",
 
     # allauth
     "allauth_ui",
@@ -70,6 +72,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'coinluxe.urls'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+
+CRISPY_TEMPLATE_PACK = "tailwind"
 
 TEMPLATES = [
     {
