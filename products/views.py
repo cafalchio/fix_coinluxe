@@ -122,5 +122,6 @@ def buy_product(request, pk):
 
 
 def success(request):
-    return render(request, 'products/success.html')
+    credits = get_object_or_404(Credits, user=request.user.id)
+    return render(request, 'products/success.html', {'credits': credits, })
 
