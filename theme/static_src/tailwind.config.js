@@ -6,6 +6,7 @@
  */
 
 const colors = require('tailwindcss/colors')
+const aspectRatio = require('@tailwindcss/aspect-ratio')
 
 module.exports = {
     darkMode: "class",
@@ -49,8 +50,17 @@ module.exports = {
             colors: {
                 // you can either spread `colors` to apply all the colors
                 ...colors,
-            }
-        },
+            },
+            aspectRatio: {
+                ...aspectRatio,
+            },
+            width: {
+            default: true, 
+            },
+            height: {
+            default: true, 
+            },
+    },
     },
     plugins: [
         /**
