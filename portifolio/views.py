@@ -128,7 +128,7 @@ def buy_crypto(request, pk):
             credit.amount -= Decimal(price)
             credit.save()
             
-            return redirect('portfolio')
+            return redirect('portifolio')
         
     else:
         form = BuyCryptoForm()
@@ -146,7 +146,7 @@ def sell_crypto(request, pk):
             amount = form.cleaned_data['amount']
             price = crypto.current_price * float(amount)  # total price
             portfolio, _ = Portfolio.objects.get_or_create(owner=user)
-            holding, created = Holding.objects.get_or_create(portfolio=portfolio, cryptocurrency=crypto)
+            holding, _ = Holding.objects.get_or_create(portfolio=portfolio, cryptocurrency=crypto)
             if holding.amount - float(amount) >=0:
                 holding.amount -= float(amount)
             else:
@@ -161,7 +161,7 @@ def sell_crypto(request, pk):
     else:
         form = SellCryptoForm()
 
-    return render(request, 'portifolio/buy_crypto.html', {'form': form, 'crypto': crypto, 'credit': credit})
+    return render(request, 'portifolio/sell_crypto.html', {'form': form, 'crypto': crypto, 'credit': credit})
 
 
 
