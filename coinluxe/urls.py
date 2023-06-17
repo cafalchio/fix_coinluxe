@@ -11,6 +11,7 @@ urlpatterns = [
     path('', include('home.urls')),
     path('cryptos/', include('api_backend.urls')),
     path('portifolio/', include('portifolio.urls')),
+    path('products/', include('products.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

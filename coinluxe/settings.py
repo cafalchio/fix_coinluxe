@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'storages',
     'api_backend',
     'portifolio',
-    'brand',
+    'products',
 
 ]
 
