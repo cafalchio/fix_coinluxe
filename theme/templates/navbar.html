@@ -18,7 +18,7 @@
                     >
                     <a
                         class="px-3 py-2 text-gray-700 rounded-md hover:text-gray-800 hover:bg-gray-300"
-                        href="#"
+                        href="{% url 'Products:all' %}"
                         >Brand Products</a
                     >
                     {% if user.is_authenticated %}
@@ -130,7 +130,7 @@
             >Cryptocurrencies</a
         >
         <a
-        href="{% url 'crypto_list' %}"
+        href="{% url 'Products:all' %}"
         class="block px-4 py-2 text-sm text-right text-gray-800 hover:bg-yellow-500 hover:text-gray-800"
         >Brand Products</a
         >
