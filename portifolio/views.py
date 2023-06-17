@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 import stripe
 from decimal import Decimal
 from api_backend.models import CryptoCurrency
-from portifolio.forms import BuyCryptoForm
+from portifolio.forms import BuyCryptoForm, SellCryptoForm
 from .models import Credits, Holding, Portfolio
 from django.views.generic import TemplateView
 
@@ -136,6 +136,36 @@ def buy_crypto(request, pk):
     return render(request, 'portifolio/buy_crypto.html', {'form': form, 'crypto': crypto, 'credit': credit})
 
 @login_required(login_url="account_login")
+def sell_crypto(request, pk):
+    user = request.user
+    credit, _ = Credits.objects.get_or_create(user=user)
+    crypto = get_object_or_404(CryptoCurrency, id=pk)
+    if request.method == 'POST':
+        form = SellCryptoForm(request.POST)
+        if form.is_valid():
+            amount = form.cleaned_data['amount']
+            price = crypto.current_price * float(amount)  # total price
+            portfolio, _ = Portfolio.objects.get_or_create(owner=user)
+            holding, created = Holding.objects.get_or_create(portfolio=portfolio, cryptocurrency=crypto)
+            if holding.amount - float(amount) >=0:
+                holding.amount -= float(amount)
+            else:
+                form = SellCryptoForm()
+            holding.save()
+            
+            credit.amount += Decimal(price) - (Decimal(price)/100) * 2
+            credit.save()
+            
+            return redirect('portfolio')
+        
+    else:
+        form = SellCryptoForm()
+
+    return render(request, 'portifolio/buy_crypto.html', {'form': form, 'crypto': crypto, 'credit': credit})
+
+
+
+@login_required(login_url="account_login")
 def portfolio_view(request):
     template_name = "portifolio/portifolio.html"
     user = request.user
@@ -147,9 +177,12 @@ def portfolio_view(request):
         holdings = Holding.objects.filter(portfolio=portfolio)
         crypto_data = []
         for holding in holdings:
+            value_eur = f"{holding.amount * holding.cryptocurrency.current_price:.2f} €"
             crypto_data.append({
                 'crypto': holding.cryptocurrency,
-                'amount': holding.amount
+                'amount': holding.amount,
+                'f_amount': holding.formatted_amount,
+                'value' : value_eur,
             })
     else:
         crypto_data = []

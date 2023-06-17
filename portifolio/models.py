@@ -18,4 +18,11 @@ class Holding(models.Model):
         "api_backend.CryptoCurrency", on_delete=models.CASCADE
     )
     amount = models.FloatField(null=True, default=0)
-
+    
+    @property
+    def formatted_amount(self):
+        if self.amount >= 1000:
+            return f"{self.amount / 1000}K"
+        elif self.amount >= 1000000:
+            return f"{self.amount / 1000000}Mi"
+        return self.amount
