@@ -85,7 +85,7 @@ def stripe_webhook(request):
         user = User.objects.get(id=user_id)
         logging.info(f"User - {user}")
         session_id = session.get("id", None)
-        time.sleep(8)    
+        time.sleep(1)
         line_items = stripe.checkout.Session.list_line_items(session_id, limit=1)
         logging.info(f"line_items - {line_items}")
         item = line_items.data[0]
