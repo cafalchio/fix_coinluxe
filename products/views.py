@@ -11,8 +11,10 @@ from .models import Product
 class ProductListView(ListView):
     model = Product
     template_name = "products/product_list.html"
-    
+
 # from boutique ado
+
+
 class ProductDetailView(DetailView):
     model = Product
     template_name = "products/product_detail.html"
@@ -22,6 +24,7 @@ class ProductDetailView(DetailView):
         product = Product.objects.get(id=self.kwargs.get("pk"))
         context['product'] = product
         return context
+
 
 @login_required
 def add_product(request):
@@ -99,29 +102,29 @@ def delete_product(request, product_id):
 def buy_product(request, pk):
     product = get_object_or_404(Product, id=pk)
     credits = get_object_or_404(Credits, user=request.user.id)
-    
+
     if request.method == 'POST':
         form = BuyProductForm(request.POST)
         if form.is_valid():
             price = product.price
             quantity = form.cleaned_data['quantity']
-            
-            if (quantity * price <= credits.amount) and product.quantity >= quantity:
+
+            if (quantity * price <= credits.amount) and\
+                    (product.quantity >= quantity):
                 product.quantity -= quantity
                 product.save()
-                
                 total_cost = quantity * price
                 credits.amount -= total_cost
                 credits.save()
-                
+
                 return redirect('success')
     else:
         form = BuyProductForm()
 
-    return render(request, 'products/buy_product.html', {'form': form, 'product': product})
+    return render(request, 'products/buy_product.html',
+                  {'form': form, 'product': product})
 
 
 def success(request):
     credits = get_object_or_404(Credits, user=request.user.id)
     return render(request, 'products/success.html', {'credits': credits, })
-

@@ -3,6 +3,7 @@ import json
 from django.db import models
 from random import randint
 
+
 class CryptoCurrency(models.Model):
     id = models.CharField(max_length=100, primary_key=True)
     symbol = models.CharField(max_length=10)
@@ -32,9 +33,9 @@ class CryptoCurrency(models.Model):
 
     @property
     def formatted_current_price(self):
-        if self.current_price < 1 and self.current_price >0.1:
+        if self.current_price < 1 and self.current_price > 0.1:
             return '{:,.3f}'.format(self.current_price)
-        elif self.current_price < 0.1 and self.current_price >0.01:
+        elif self.current_price < 0.1 and self.current_price > 0.01:
             return '{:,.4f}'.format(self.current_price)
         elif self.current_price < 0.01:
             return '{:,.6f}'.format(self.current_price)
@@ -48,15 +49,15 @@ class CryptoCurrency(models.Model):
             return '{:,.2f} mi'.format(self.market_cap / 1000000)
         else:
             return '{:,.2f}'.format(self.market_cap)
-        
+
     @property
     def formatted_price_change_24h(self):
         return f"{self.price_change_percentage_24h:.2f}"
-    
+
     @property
     def integer_24h_change(self):
         return int(float(self.formatted_price_change_24h) * 100)
-    
+
     @property
     def selling_text(self):
         negative_phrases = [
@@ -70,21 +71,19 @@ class CryptoCurrency(models.Model):
             f"Join the rally: Buy {self.id.capitalize()}!"
         ]
         if int(float(self.formatted_price_change_24h) * 100) < 0:
-            return negative_phrases[randint(0,2)]
+            return negative_phrases[randint(0, 2)]
         else:
-            return positive_phrases[randint(0,2)]
-        
-    
+            return positive_phrases[randint(0, 2)]
+
     @property
     def formatted_symbol(self):
         return f"{self.symbol.upper()}"
-    
-    
-    @property 
+
+    @property
     def formatted_last_updated(self):
         updated_time = self.last_updated + timedelta(hours=1)
         return updated_time.strftime("%d %B - %H:%M:%S")
-        
+
     @property
     def formatted_total_volume(self):
         if self.total_volume >= 1000000000:
@@ -99,9 +98,6 @@ class CryptoCurrency(models.Model):
 
     class Meta:
         ordering = ['-market_cap']
-
-    def __str__(self):
-        return self.name
 
 
 # Coin Detail
@@ -119,17 +115,17 @@ class Coins(models.Model):
     @property
     def formatted_symbol(self):
         return f"{self.symbol.upper()}"
-    
+
     @property
     def formatted_homepage(self):
         homepage_list = json.loads(self.homepage)
         return homepage_list[0]
-    
+
     @property
     def formatted_categories(self):
         categories = json.loads(self.categories)
         return categories
-    
+
     @property
     def formatted_blockchain_site(self):
         blockchain_sites = json.loads(self.blockchain_site)
@@ -137,13 +133,12 @@ class Coins(models.Model):
 
     def __str__(self):
         return self.name
-    
-    
-    
+
+
 class PriceUpdate(models.Model):
     id = models.CharField(max_length=200, primary_key=True)
     price_time = models.JSONField(max_length=365, null=True)
-    
+
     @property
     def formatted_price_time(self):
         price_time = json.loads(self.price_time)

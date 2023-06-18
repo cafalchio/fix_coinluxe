@@ -3,7 +3,6 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 import stripe
 from decimal import Decimal
@@ -25,7 +24,7 @@ def get_credits(request):
 @login_required(login_url="login")
 def add_credits(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY_TEST
-    metadata = {"user_id": str(request.user.id)} 
+    metadata = {"user_id": str(request.user.id)}
     if request.method == "POST":
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=["card"],
@@ -40,7 +39,7 @@ def add_credits(request):
             success_url=settings.REDIRECT_DOMAIN
             + "/payment_successful?session_id={CHECKOUT_SESSION_ID}",
             cancel_url=settings.REDIRECT_DOMAIN + "/payment_cancelled",
-            metadata=metadata, 
+            metadata=metadata,
         )
         return redirect(checkout_session.url, code=303)
     return render(request, "portifolio/add_credits.html")
@@ -54,12 +53,15 @@ def payment_successful(request):
     if settings.DEBUG:
         print(f"{session} -> Session ID")
         print(f"{customer} -> costumer ")
-    return render(request, "portifolio/payment_successful.html", {"customer": customer})
+    return render(request,
+                  "portifolio/payment_successful.html",
+                  {"customer": customer})
 
 
 def payment_cancelled(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY_TEST
     return render(request, "portifolio/payment_cancelled.html")
+
 
 @csrf_exempt
 def stripe_webhook(request):
@@ -72,20 +74,17 @@ def stripe_webhook(request):
         event = stripe.Webhook.construct_event(
             payload, signature_header, settings.STRIPE_WEBHOOK_SECRET_TEST
         )
-    except ValueError as e:
+    except ValueError:
         return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError as e:
+    except stripe.error.SignatureVerificationError:
         return HttpResponse(status=400)
-    
+
     if event["type"] == "checkout.session.completed":
         session = event["data"]["object"]
-        metadata = session.get("metadata", {})
-        user_id = metadata.get("user_id")
-        user = User.objects.get(id=user_id)
-        
         session_id = session.get("id", None)
         time.sleep(1)
-        line_items = stripe.checkout.Session.list_line_items(session_id, limit=1)
+        line_items = stripe.checkout.Session.list_line_items(session_id,
+                                                             limit=1)
         item = line_items.data[0]
         value = int(item.amount_total) / 100
         credits.amount += Decimal(value)
@@ -104,7 +103,8 @@ def buy_crypto(request, pk):
             amount = form.cleaned_data['amount']
             price = crypto.current_price * float(amount)  # total price
             portfolio, _ = Portfolio.objects.get_or_create(owner=user)
-            holding, created = Holding.objects.get_or_create(portfolio=portfolio, cryptocurrency=crypto)
+            holding, created = Holding.objects.get_or_create(
+                portfolio=portfolio, cryptocurrency=crypto)
             if not holding.amount:
                 holding.amount = 0
             if created:
@@ -112,45 +112,50 @@ def buy_crypto(request, pk):
             else:
                 holding.amount += float(amount)
             holding.save()
-            
+
             credit.amount -= Decimal(price)
             credit.save()
-            
+
             return redirect('portfolio')
-        
+
     else:
         form = BuyCryptoForm()
 
-    return render(request, 'portifolio/buy_crypto.html', {'form': form, 'crypto': crypto, 'credit': credit})
+    return render(request, 'portifolio/buy_crypto.html',
+                  {'form': form, 'crypto': crypto, 'credit': credit})
+
 
 @login_required(login_url="account_login")
 def sell_crypto(request, pk):
     user = request.user
     credit, _ = Credits.objects.get_or_create(user=user)
     crypto = get_object_or_404(CryptoCurrency, id=pk)
+    portfolio, _ = Portfolio.objects.get_or_create(owner=user)
+    holding, _ = Holding.objects.get_or_create(
+                portfolio=portfolio, cryptocurrency=crypto)
+    hold_value = f"{(crypto.current_price * holding.amount):.2f}"
     if request.method == 'POST':
         form = SellCryptoForm(request.POST)
         if form.is_valid():
-            amount = form.cleaned_data['amount']
-            price = crypto.current_price * float(amount)  # total price
-            portfolio, _ = Portfolio.objects.get_or_create(owner=user)
-            holding, _ = Holding.objects.get_or_create(portfolio=portfolio, cryptocurrency=crypto)
-            if holding.amount - float(amount) >=0:
-                holding.amount -= float(amount)
+            sell_amount = form.cleaned_data['amount']
+            value = crypto.current_price * float(sell_amount)  # total sell
+            if holding.amount - float(sell_amount) >= 0:
+                holding.amount -= float(sell_amount)
             else:
                 form = SellCryptoForm()
             holding.save()
-            
-            credit.amount += Decimal(price) - (Decimal(price)/100) * 2
+            credit.amount += Decimal(value) - (Decimal(value) / 100) * 2
             credit.save()
-            
+
             return redirect('portifolio')
-        
+
     else:
         form = SellCryptoForm()
 
-    return render(request, 'portifolio/sell_crypto.html', {'form': form, 'crypto': crypto, 'credit': credit})
-
+    return render(request, 'portifolio/sell_crypto.html',
+                  {'form': form, 'crypto': crypto,
+                   'credit': credit, 'holding': holding,
+                   'hold_value': hold_value})
 
 
 @login_required(login_url="account_login")
@@ -165,18 +170,16 @@ def portfolio_view(request):
         holdings = Holding.objects.filter(portfolio=portfolio)
         crypto_data = []
         for holding in holdings:
-            value_eur = f"{holding.amount * holding.cryptocurrency.current_price:.2f} €"
+            value = holding.cryptocurrency.current_price
+            value_eur = f"{holding.amount * value:.2f} €"
             crypto_data.append({
                 'crypto': holding.cryptocurrency,
                 'amount': holding.amount,
                 'f_amount': holding.formatted_amount,
-                'value' : value_eur,
+                'value': value_eur,
             })
     else:
         crypto_data = []
-    
+
     context = {'crypto_data': crypto_data}
     return render(request, template_name, context)
-
-
-    

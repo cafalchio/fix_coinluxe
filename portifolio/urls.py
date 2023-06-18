@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import add_credits, get_credits, payment_cancelled, payment_successful, sell_crypto, stripe_webhook, buy_crypto,portfolio_view
+from .views import add_credits, get_credits, payment_cancelled, payment_successful, sell_crypto, stripe_webhook, buy_crypto, portfolio_view
 
 urlpatterns = [
     path("get-credits/", get_credits, name="get_credits"),

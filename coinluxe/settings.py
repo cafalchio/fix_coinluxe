@@ -122,15 +122,12 @@ LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
 
-
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'webcoinluxeshop@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-
-
 
 
 WSGI_APPLICATION = 'coinluxe.wsgi.application'
@@ -224,7 +221,7 @@ SITE_NAME = 'Coinluxe'
 
 # dealing wit warnings in python manage.py check --deploy
 if not DEBUG:
-    SECURE_HSTS_SECONDS = 31536000*2
+    SECURE_HSTS_SECONDS = 31536000 * 2
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
     CSRF_COOKIE_SECURE = True

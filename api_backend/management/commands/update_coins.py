@@ -2,19 +2,21 @@ from django.core.management.base import BaseCommand
 import requests
 from django.core.exceptions import ObjectDoesNotExist
 
-from api_backend.models import Coins, CryptoCurrency
+from api_backend.models import CryptoCurrency
 
 coingecko = "https://api.coingecko.com/api/v3"
 coins = '/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=250&page=1&sparkline=false&locale=en'
 
+
 class Command(BaseCommand):
     help = "Update the crypto databases"
-    
+
     def handle(self, *args, **kwargs):
-        
+
         response = requests.get(coingecko + coins)
         if response.status_code != 200:
-            self.stdout.write(self.style.ERROR('Failed to retrieve data from the endpoint.'))
+            self.stdout.write(self.style.ERROR(
+                'Failed to retrieve data from the endpoint.'))
             return
         coin_data = response.json()
         for coin in coin_data:
@@ -33,7 +35,8 @@ class Command(BaseCommand):
             price_change_24h = coin['price_change_24h'] if 'price_change_24h' in coin else None
             price_change_percentage_24h = coin['price_change_percentage_24h'] if 'price_change_percentage_24h' in coin else None
             market_cap_change_24h = coin['market_cap_change_24h'] if 'market_cap_change_24h' in coin else None
-            market_cap_change_percentage_24h = coin['market_cap_change_percentage_24h'] if 'market_cap_change_percentage_24h' in coin else None
+            market_cap_change_percentage_24h = coin[
+                'market_cap_change_percentage_24h'] if 'market_cap_change_percentage_24h' in coin else None
             circulating_supply = coin['circulating_supply'] if 'circulating_supply' in coin else None
             total_supply = coin['total_supply'] if 'total_supply' in coin else None
             max_supply = coin['max_supply'] if 'max_supply' in coin else None
@@ -81,4 +84,3 @@ class Command(BaseCommand):
             crypto_obj.save()
 
         self.stdout.write(self.style.SUCCESS('Database update complete.'))
-

@@ -4,7 +4,6 @@ from products.views import add_product, delete_product, edit_product
 from .views import CoinDetailView, CryptoListView
 
 
-
 urlpatterns = [
     path('', CryptoListView.as_view(), name='crypto_list'),
     path('<str:pk>/', CoinDetailView.as_view(), name='coin'),

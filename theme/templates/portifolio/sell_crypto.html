@@ -10,7 +10,7 @@
                 {% csrf_token %}
                 <div class="mb-4 text-gray-900">
                     <input type="hidden" id="id_crypto_id" name="crypto_id" value="{{ crypto.id }}">
-                    <label for="id_amount" class="block mb-2 font-semibold">Amount:</label>
+                    <label for="id_amount" class="block mb-2 font-semibold">Amount: {{ holding.amount }} Value: {{hold_value}}€</label>
                     <input type="{{ form.amount.field.widget.input_type }}" id="id_amount" name="{{ form.amount.html_name }}" step="any" class="font-bold text-gray-800 bg-gray-200 rounded-md dark:bg-gray-900 form-input">
                 </div>
                 <button type="submit" class="px-4 py-2 font-bold text-white bg-green-600 rounded hover:bg-green-700">
