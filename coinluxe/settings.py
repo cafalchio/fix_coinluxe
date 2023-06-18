@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 
     # tailwind
     'tailwind',
-    "crispy_forms",
+    # "crispy_forms",
     "crispy_tailwind",
 
     # allauth
