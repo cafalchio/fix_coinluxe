@@ -125,6 +125,7 @@ def buy_crypto(request, pk):
             else:
                 holding.amount += float(amount)
             holding.save()
+            
             credit.amount -= Decimal(price)
             credit.save()
             return redirect('portfolio')
