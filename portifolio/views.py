@@ -1,5 +1,4 @@
 import time
-from django import template
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -95,7 +94,7 @@ def stripe_webhook(request):
         logging.info(f"amount - {value}")
         credits, _ = Credits.objects.get_or_create(user=user)
         logging.info(f"Credits amount - {credits.amount}")
-        credits.amount += value
+        credits.amount += Decimal(value)
         logging.info(f"credits.amount - {credits.amount}")
         credits.save()
     return HttpResponse(status=200)
