@@ -11,7 +11,8 @@ from decimal import Decimal
 from api_backend.models import CryptoCurrency
 from portifolio.forms import BuyCryptoForm, SellCryptoForm
 from .models import Credits, Holding, Portfolio
-
+import logging
+logging.basicConfig(level=logging.INFO)
 
 @login_required
 def get_credits(request):
@@ -62,20 +63,10 @@ def payment_cancelled(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY_TEST
     return render(request, "portifolio/payment_cancelled.html")
 
-def save_credits(user, amount):
-    print("Save credits")
-    print(f"user {user}, amount: {amount}")
-    credits, created = Credits.objects.get_or_create(user=user)
-    if created:
-        credits.amount = amount
-    else:
-        credits.amount += amount
-    credits.save()
-    
 @csrf_exempt
 def stripe_webhook(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY_TEST
-    time.sleep(8)
+    time.sleep(6)
     payload = request.body
     signature_header = request.META["HTTP_STRIPE_SIGNATURE"]
     event = None
@@ -92,13 +83,21 @@ def stripe_webhook(request):
         session = event["data"]["object"]
         metadata = session.get("metadata", {})
         user_id = metadata.get("user_id")
-        user = User.objects.get(id=user_id) if user_id else None
+        user = User.objects.get(id=user_id)
+        logging.info(f"User - {user}")
         session_id = session.get("id", None)
         time.sleep(8)    
         line_items = stripe.checkout.Session.list_line_items(session_id, limit=1)
+        logging.info(f"line_items - {line_items}")
         item = line_items.data[0]
-        credits = int(item.amount_total) / 100
-        save_credits(user=user, amount=credits)
+        logging.info(f"item - {item}")
+        value = int(item.amount_total) / 100
+        logging.info(f"amount - {value}")
+        credits, _ = Credits.objects.get_or_create(user=user)
+        logging.info(f"Credits amount - {credits.amount}")
+        credits.amount += value
+        logging.info(f"credits.amount - {credits.amount}")
+        credits.save()
     return HttpResponse(status=200)
 
 
