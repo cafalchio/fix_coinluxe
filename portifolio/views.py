@@ -12,8 +12,6 @@ from api_backend.models import CryptoCurrency
 from portifolio.forms import BuyCryptoForm, SellCryptoForm
 from .models import Credits, Holding, Portfolio
 
-register = template.Library()
-
 
 @login_required
 def get_credits(request):
@@ -25,7 +23,7 @@ def get_credits(request):
 # https://www.youtube.com/watch?v=hZYWtK2k1P8&t=222s
 
 
-@login_required(login_url="account_login")
+@login_required(login_url="login")
 def add_credits(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY_TEST
     metadata = {"user_id": str(request.user.id)} 
@@ -96,7 +94,7 @@ def stripe_webhook(request):
         user_id = metadata.get("user_id")
         user = User.objects.get(id=user_id) if user_id else None
         session_id = session.get("id", None)
-        time.sleep(4)    
+        time.sleep(8)    
         line_items = stripe.checkout.Session.list_line_items(session_id, limit=1)
         item = line_items.data[0]
         credits = int(item.amount_total) / 100
