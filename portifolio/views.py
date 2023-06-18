@@ -10,8 +10,7 @@ from decimal import Decimal
 from api_backend.models import CryptoCurrency
 from portifolio.forms import BuyCryptoForm, SellCryptoForm
 from .models import Credits, Holding, Portfolio
-import logging
-logging.basicConfig(level=logging.INFO)
+
 
 @login_required
 def get_credits(request):
@@ -83,19 +82,13 @@ def stripe_webhook(request):
         metadata = session.get("metadata", {})
         user_id = metadata.get("user_id")
         user = User.objects.get(id=user_id)
-        logging.info(f"User - {user}")
+        
         session_id = session.get("id", None)
         time.sleep(1)
         line_items = stripe.checkout.Session.list_line_items(session_id, limit=1)
-        logging.info(f"line_items - {line_items}")
         item = line_items.data[0]
-        logging.info(f"item - {item}")
         value = int(item.amount_total) / 100
-        logging.info(f"amount - {value}")
-        credits, _ = Credits.objects.get_or_create(user=user)
-        logging.info(f"Credits amount - {credits.amount}")
         credits.amount += Decimal(value)
-        logging.info(f"credits.amount - {credits.amount}")
         credits.save()
     return HttpResponse(status=200)
 
