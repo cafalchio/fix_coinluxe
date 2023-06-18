@@ -22,7 +22,10 @@ class Command(BaseCommand):
         for coin in coin_data:
             if settings.DEBUG:
                 coin_id = coin['id']
-            response = requests.get(coingecko + f'/coins/{coin_id}?localization=false&tickers=false&market_data=false&community_data=true&developer_data=true&sparkline=false')
+            try:
+                response = requests.get(coingecko + f'/coins/{coin_id}?localization=false&tickers=false&market_data=false&community_data=true&developer_data=true&sparkline=false')
+            except:
+                continue
             if response.status_code != 200:
                 self.stdout.write(self.style.ERROR('Failed to retrieve data from the endpoint.'))
                 return
