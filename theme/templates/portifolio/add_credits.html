@@ -18,7 +18,7 @@
       <form enctype="multipart/form-data" method="post" role="product_page">
         {% csrf_token %}
         {{ form.as_p }}
-        <button class="px-4 py-2 mt-4 font-bold text-white bg-green-500 rounded-md shadow-md hover:bg-green-700">
+        <button class="px-4 py-2 mt-4 font-bold text-white bg-green-600 rounded-md shadow-md hover:bg-green-700">
           Add Credits and Buy Crypto
         </button>
       </form>
@@ -41,7 +41,7 @@
       </div>
     {% else %}
       <h2 class="mt-4">You're not logged in...</h2>
-      <a href="{% url 'account_login' %}" class="px-4 py-2 mt-4 font-bold text-white bg-gray-500 rounded hover:bg-gray-600">
+      <a href="{% url 'account_login' %}" class="px-4 py-2 mt-4 font-bold text-white bg-gray-600 rounded hover:bg-gray-700">
         Log in
       </a>
       <p class="mt-4">Please log in to add credits and come back later.</p>
