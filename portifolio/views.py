@@ -11,7 +11,6 @@ from decimal import Decimal
 from api_backend.models import CryptoCurrency
 from portifolio.forms import BuyCryptoForm, SellCryptoForm
 from .models import Credits, Holding, Portfolio
-from django.views.generic import TemplateView
 
 register = template.Library()
 
