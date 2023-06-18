@@ -7,7 +7,6 @@ Embrace the future of finance with CoinLuxe. Start your crypto journey today and
 
 # UX Design
 
-The type of user that I have in mind for this website is a book lover who enjoys reading a wide variety of books. The user is likely to be a student or a professional who is looking for a convenient way to purchase books online. The user is likely to be familiar with online shopping and will be comfortable with the process of creating an account and making a purchase.
 
 
 
@@ -424,6 +423,7 @@ https://www.youtube.com/watch?v=miiPsBlqMns
 https://tailwindcss.com/
 https://www.khanna.law/blog/deploying-django-tailwind-to-heroku
 https://looka.com
+https://github.com/ecabanasv/ci-pp5-ecommerce
 
 # Acknowledgments
 
