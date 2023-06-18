@@ -9,7 +9,6 @@ class CryptoListView(ListView):
     paginate_by = 10
     model = CryptoCurrency
     template_name = "api_backend/cryptos.html"
-    
 
     def get_queryset(self):
         queryset = CryptoCurrency.objects.order_by('-market_cap')
