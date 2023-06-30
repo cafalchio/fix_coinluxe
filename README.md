@@ -1,12 +1,21 @@
 # CoinLuxe
 
-Embrace the future of finance with CoinLuxe. Start your crypto journey today and unlock the potential of decentralized technologies.
+Welcome to CoinLuxe, your user-friendly and visually captivating platform that empowers you in the world of cryptocurrencies. Our goal is to provide comprehensive and accurate information about cryptocurrencies and related products, enabling you to make informed decisions with confidence. With a secure and seamless user authentication process, accessing your account and personalized features is hassle-free. We've streamlined the registration process, making it quick and easy for new users to join our platform. **Explore our extensive list of cryptocurrencies and products** at [https://coinluxe.herokuapp.com/](https://coinluxe.herokuapp.com/)
 
 
 ## Table of Contents
 
+[TOC]
+
 # UX Design
 
+Our UX design follows these principles to ensure a user-centric approach:
+
+- Simplicity: Strive for simplicity in design, minimizing complexity and cognitive load for users.
+- Consistency: Maintain consistency in visual elements, interactions, and terminology across the product.
+- Accessibility: Prioritize accessibility to make the product usable for a wide range of users, including those with disabilities.
+- Clarity: Use clear and concise language, provide helpful feedback, and guide users through the interface effectively.
+- Responsiveness: Design for responsiveness to deliver a consistent and optimized experience across different devices and screen sizes.
 
 
 
@@ -50,21 +59,19 @@ USER GOALS:
 
 The palette was was choose o create a clean and simple design for the CoinLuxe website. 
 
-Clean and Minimalistic: White is often associated with cleanliness and  minimalism. It creates a sense of spaciousness and helps to accentuate  other elements on the website. By incorporating white into the design,  the CoinLuxe website achieves a clean and uncluttered appearance.
-
-Timeless Elegance: Black is a classic color that exudes sophistication  and elegance. It adds depth and contrast to the overall design, making  important elements or text stand out. The use of black in the color  palette enhances the website's visual appeal and provides a sense of  refinement.
+Clean and Minimalistic: White is often associated with cleanliness and  minimalism. It creates a sense of spaciousness and helps to accentuate  other elements on the website. By incorporating white into the design,  the CoinLuxe website achieves a clean appearance.
 
 ### Images
 
-The CoinLuxe website incorporates crypto images and crypto data obtained from Coingecko.com through the Coingecko API. To ensure real-time and  accurate information, the crypto data is updated every 10 minutes using a scheduler configured on the Heroku platform.
+The CoinLuxe website incorporates crypto logos and product images. The crypto images were got from [coingecko](https://coingecko.com) website.
 
 ### Fonts
 
-The fonts used in this project are system fonts
+The fonts used in this project are user system fonts
 
 ### Wireframes
 
-The wireframes for this project were created using [Balsamiq](https://balsamiq.com/). The wireframes were created to provide a visual representation of the website's layout and functionality.
+The wireframes for this project were created using [Figma](https://www.figma.com/). The wireframes were created to provide a visual representation of the main website pages and functionalities.
 
 # Agile Methodology
 
@@ -82,19 +89,16 @@ PostgreSQL was used to create the database for this project. The database schema
 
 ## User Authentication
 
-Authentication was implemented using Django's built-in authentication system. The authentication system was used to create a custom user model that allows users to sign up and log in to the website. The authentication system was also used to create a custom admin model that allows admin users to log in to the admin site.
+The project implemented authentication using Django's built-in authentication system. 
 
-Decorators were used to restrict access to certain pages based on the user's role. The decorators used in this project are:
+To control access to specific pages based on user roles, decorators were utilized. The project incorporated the following decorators:
 
-- @login_required: restricts access to the page to logged in users.
-- @staff_member_required: restricts access to the page to admin users.
+- @login_required: This decorator ensures that only logged-in users can access certain pages, adding a layer of security and restricting unauthorized access.
+- only superusers are allowed to edit products.
 
-## Form Validation
+These decorators play a crucial role in maintaining the integrity and security of the website by enforcing user authentication and authorization protocols.
 
-For security purposes, form validation was implemented in the following forms:
 
-- Login form
-- Signup form
 
 ## Custom error pages:
 
@@ -111,7 +115,7 @@ The current features of the website are:
 ## Navbar
 
 - The website has a navigation bar that allows users to navigate to different sections of the website.
-- The navbar may include links to the home page, cryptocurrencies list, user account pages, and other relevant sections.
+- The navbar may include links to the home page, cryptocurrencies list, user account pages, add credits link and other relevant sections.
 
 ## Footer
 
@@ -121,13 +125,7 @@ The current features of the website are:
 ## Home Page
 
 - The home page serves as the main landing page of the website.
-- It may provide an overview of the website's purpose, features, and highlights.
-
-## User Account Pages
-
-- The website includes user account functionality.
-- Users can create an account, log in, and access their personalized account pages.
-- Account pages may include features such as profile management, order history, and saved preferences.
+- It provides an overview of the website's purpose, features,  highlights and newsletter registration.
 
 ## Cryptocurrencies List
 
@@ -137,19 +135,17 @@ The current features of the website are:
 
 ## Pagination
 
-- The pagination feature allows the user to navigate through the crypto list. T
-
-
+- The pagination feature allows the user to navigate through the crypto list. 
 
 ## Search
 
-- Search for a specific cryptocurrency.
+- Users can search for a specific cryptocurrency.
 
 
 
 ## Crypto detail
 
-
+The crypto detail webpage show an interactive graph of the crypto price for the last year. Also relevant project links and description.
 
 
 

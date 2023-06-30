@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api_backend', '0004_alter_cryptocurrency_price_change_24h'),
+        ("api_backend", "0004_alter_cryptocurrency_price_change_24h"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='cryptocurrency',
-            options={'ordering': ['-market_cap']},
+            name="cryptocurrency",
+            options={"ordering": ["-market_cap"]},
         ),
     ]

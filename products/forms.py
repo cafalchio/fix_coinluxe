@@ -5,7 +5,7 @@ from .models import Product
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = "__all__"
 
 
 class BuyProductForm(forms.ModelForm):
@@ -15,10 +15,10 @@ class BuyProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        exclude = ['name', 'friendly_name', 'price', 'description', 'image']
+        exclude = ["name", "friendly_name", "price", "description", "image"]
 
     quantity = forms.IntegerField()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['quantity'].label = 'Quantity'
+        self.fields["quantity"].label = "Quantity"

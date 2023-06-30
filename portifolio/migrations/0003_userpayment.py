@@ -9,17 +9,31 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('portifolio', '0002_auto_20230611_1939'),
+        ("portifolio", "0002_auto_20230611_1939"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='UserPayment',
+            name="UserPayment",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('payment_bool', models.BooleanField(default=False)),
-                ('stripe_checkout_id', models.CharField(max_length=500)),
-                ('app_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("payment_bool", models.BooleanField(default=False)),
+                ("stripe_checkout_id", models.CharField(max_length=500)),
+                (
+                    "app_user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

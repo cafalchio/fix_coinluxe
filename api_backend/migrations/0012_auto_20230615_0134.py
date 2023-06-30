@@ -6,21 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api_backend', '0011_priceupdate'),
+        ("api_backend", "0011_priceupdate"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='priceupdate',
-            name='date',
+            model_name="priceupdate",
+            name="date",
         ),
         migrations.RemoveField(
-            model_name='priceupdate',
-            name='price',
+            model_name="priceupdate",
+            name="price",
         ),
         migrations.AddField(
-            model_name='priceupdate',
-            name='price_time',
+            model_name="priceupdate",
+            name="price_time",
             field=models.JSONField(max_length=365, null=True),
         ),
     ]

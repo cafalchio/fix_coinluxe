@@ -53,9 +53,7 @@ def payment_successful(request):
     if settings.DEBUG:
         print(f"{session} -> Session ID")
         print(f"{customer} -> costumer ")
-    return render(request,
-                  "portifolio/payment_successful.html",
-                  {"customer": customer})
+    return render(request, "portifolio/payment_successful.html", {"customer": customer})
 
 
 def payment_cancelled(request):
@@ -83,8 +81,7 @@ def stripe_webhook(request):
         session = event["data"]["object"]
         session_id = session.get("id", None)
         time.sleep(1)
-        line_items = stripe.checkout.Session.list_line_items(session_id,
-                                                             limit=1)
+        line_items = stripe.checkout.Session.list_line_items(session_id, limit=1)
         item = line_items.data[0]
         value = int(item.amount_total) / 100
         credits.amount += Decimal(value)
@@ -97,14 +94,15 @@ def buy_crypto(request, pk):
     user = request.user
     credit, _ = Credits.objects.get_or_create(user=user)
     crypto = get_object_or_404(CryptoCurrency, id=pk)
-    if request.method == 'POST':
+    if request.method == "POST":
         form = BuyCryptoForm(request.POST)
         if form.is_valid():
-            amount = form.cleaned_data['amount']
+            amount = form.cleaned_data["amount"]
             price = crypto.current_price * float(amount)  # total price
             portfolio, _ = Portfolio.objects.get_or_create(owner=user)
             holding, created = Holding.objects.get_or_create(
-                portfolio=portfolio, cryptocurrency=crypto)
+                portfolio=portfolio, cryptocurrency=crypto
+            )
             if not holding.amount:
                 holding.amount = 0
             if created:
@@ -116,13 +114,16 @@ def buy_crypto(request, pk):
             credit.amount -= Decimal(price)
             credit.save()
 
-            return redirect('portfolio')
+            return redirect("portfolio")
 
     else:
         form = BuyCryptoForm()
 
-    return render(request, 'portifolio/buy_crypto.html',
-                  {'form': form, 'crypto': crypto, 'credit': credit})
+    return render(
+        request,
+        "portifolio/buy_crypto.html",
+        {"form": form, "crypto": crypto, "credit": credit},
+    )
 
 
 @login_required(login_url="account_login")
@@ -132,12 +133,13 @@ def sell_crypto(request, pk):
     crypto = get_object_or_404(CryptoCurrency, id=pk)
     portfolio, _ = Portfolio.objects.get_or_create(owner=user)
     holding, _ = Holding.objects.get_or_create(
-                portfolio=portfolio, cryptocurrency=crypto)
+        portfolio=portfolio, cryptocurrency=crypto
+    )
     hold_value = f"{(crypto.current_price * holding.amount):.2f}"
-    if request.method == 'POST':
+    if request.method == "POST":
         form = SellCryptoForm(request.POST)
         if form.is_valid():
-            sell_amount = form.cleaned_data['amount']
+            sell_amount = form.cleaned_data["amount"]
             value = crypto.current_price * float(sell_amount)  # total sell
             if holding.amount - float(sell_amount) >= 0:
                 holding.amount -= float(sell_amount)
@@ -147,15 +149,22 @@ def sell_crypto(request, pk):
             credit.amount += Decimal(value) - (Decimal(value) / 100) * 2
             credit.save()
 
-            return redirect('portifolio')
+            return redirect("portifolio")
 
     else:
         form = SellCryptoForm()
 
-    return render(request, 'portifolio/sell_crypto.html',
-                  {'form': form, 'crypto': crypto,
-                   'credit': credit, 'holding': holding,
-                   'hold_value': hold_value})
+    return render(
+        request,
+        "portifolio/sell_crypto.html",
+        {
+            "form": form,
+            "crypto": crypto,
+            "credit": credit,
+            "holding": holding,
+            "hold_value": hold_value,
+        },
+    )
 
 
 @login_required(login_url="account_login")
@@ -172,14 +181,16 @@ def portfolio_view(request):
         for holding in holdings:
             value = holding.cryptocurrency.current_price
             value_eur = f"{holding.amount * value:.2f} €"
-            crypto_data.append({
-                'crypto': holding.cryptocurrency,
-                'amount': holding.amount,
-                'f_amount': holding.formatted_amount,
-                'value': value_eur,
-            })
+            crypto_data.append(
+                {
+                    "crypto": holding.cryptocurrency,
+                    "amount": holding.amount,
+                    "f_amount": holding.formatted_amount,
+                    "value": value_eur,
+                }
+            )
     else:
         crypto_data = []
 
-    context = {'crypto_data': crypto_data}
+    context = {"crypto_data": crypto_data}
     return render(request, template_name, context)

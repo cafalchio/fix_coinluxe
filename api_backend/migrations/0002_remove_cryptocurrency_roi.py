@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api_backend', '0001_initial'),
+        ("api_backend", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='cryptocurrency',
-            name='roi',
+            model_name="cryptocurrency",
+            name="roi",
         ),
     ]

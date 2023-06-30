@@ -10,7 +10,7 @@ class IndexListView(ListView):
 
     def get_queryset(self):
         queryset = CryptoCurrency.objects.filter(
-            market_cap__isnull=False).order_by('-market_cap')[:4]
+            price_change_percentage_24h__isnull=False).order_by('-market_cap')[0:4]
         return queryset
 
     def get_context_data(self, **kwargs):

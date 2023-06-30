@@ -6,78 +6,78 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api_backend', '0002_remove_cryptocurrency_roi'),
+        ("api_backend", "0002_remove_cryptocurrency_roi"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='cryptocurrency',
-            name='ath',
+            model_name="cryptocurrency",
+            name="ath",
             field=models.FloatField(null=True),
         ),
         migrations.AlterField(
-            model_name='cryptocurrency',
-            name='ath_change_percentage',
+            model_name="cryptocurrency",
+            name="ath_change_percentage",
             field=models.FloatField(null=True),
         ),
         migrations.AlterField(
-            model_name='cryptocurrency',
-            name='ath_date',
+            model_name="cryptocurrency",
+            name="ath_date",
             field=models.DateTimeField(null=True),
         ),
         migrations.AlterField(
-            model_name='cryptocurrency',
-            name='atl',
+            model_name="cryptocurrency",
+            name="atl",
             field=models.FloatField(null=True),
         ),
         migrations.AlterField(
-            model_name='cryptocurrency',
-            name='atl_change_percentage',
+            model_name="cryptocurrency",
+            name="atl_change_percentage",
             field=models.FloatField(null=True),
         ),
         migrations.AlterField(
-            model_name='cryptocurrency',
-            name='current_price',
+            model_name="cryptocurrency",
+            name="current_price",
             field=models.FloatField(null=True),
         ),
         migrations.AlterField(
-            model_name='cryptocurrency',
-            name='high_24h',
+            model_name="cryptocurrency",
+            name="high_24h",
             field=models.FloatField(null=True),
         ),
         migrations.AlterField(
-            model_name='cryptocurrency',
-            name='low_24h',
+            model_name="cryptocurrency",
+            name="low_24h",
             field=models.FloatField(null=True),
         ),
         migrations.AlterField(
-            model_name='cryptocurrency',
-            name='market_cap',
+            model_name="cryptocurrency",
+            name="market_cap",
             field=models.BigIntegerField(null=True),
         ),
         migrations.AlterField(
-            model_name='cryptocurrency',
-            name='market_cap_change_24h',
+            model_name="cryptocurrency",
+            name="market_cap_change_24h",
             field=models.FloatField(null=True),
         ),
         migrations.AlterField(
-            model_name='cryptocurrency',
-            name='market_cap_change_percentage_24h',
+            model_name="cryptocurrency",
+            name="market_cap_change_percentage_24h",
             field=models.FloatField(null=True),
         ),
         migrations.AlterField(
-            model_name='cryptocurrency',
-            name='market_cap_rank',
+            model_name="cryptocurrency",
+            name="market_cap_rank",
             field=models.PositiveIntegerField(null=True),
         ),
         migrations.AlterField(
-            model_name='cryptocurrency',
-            name='price_change_percentage_24h',
+            model_name="cryptocurrency",
+            name="price_change_percentage_24h",
             field=models.FloatField(null=True),
         ),
         migrations.AlterField(
-            model_name='cryptocurrency',
-            name='total_volume',
+            model_name="cryptocurrency",
+            name="total_volume",
             field=models.BigIntegerField(null=True),
         ),
     ]

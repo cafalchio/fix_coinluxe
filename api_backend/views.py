@@ -11,12 +11,11 @@ class CryptoListView(ListView):
     template_name = "api_backend/cryptos.html"
 
     def get_queryset(self):
-        queryset = CryptoCurrency.objects.order_by('-market_cap')
-        search_query = self.request.GET.get('search')
+        queryset = CryptoCurrency.objects.order_by("-market_cap")
+        search_query = self.request.GET.get("search")
         if search_query:
             queryset = queryset.filter(
-                Q(name__icontains=search_query) |
-                Q(symbol__icontains=search_query)
+                Q(name__icontains=search_query) | Q(symbol__icontains=search_query)
             )
 
         return queryset
@@ -37,12 +36,12 @@ class CoinDetailView(DetailView):
         # processing data
         df = pd.DataFrame(price.formatted_price_time)
         df.columns = ["date", "price"]
-        df.date = pd.to_datetime(df.date, unit='ms')
+        df.date = pd.to_datetime(df.date, unit="ms")
         chart = plot_chart(df)
 
         # contexts
-        context['chart'] = chart
-        context['coin'] = coin
-        context['crypto'] = crypto
+        context["chart"] = chart
+        context["coin"] = coin
+        context["crypto"] = crypto
 
         return context

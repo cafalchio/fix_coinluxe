@@ -6,18 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('portifolio', '0005_alter_credits_amount'),
+        ("portifolio", "0005_alter_credits_amount"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='credits',
-            name='amount',
-            field=models.DecimalField(decimal_places=2, default=0, max_digits=10, null=True),
+            model_name="credits",
+            name="amount",
+            field=models.DecimalField(
+                decimal_places=2, default=0, max_digits=10, null=True
+            ),
         ),
         migrations.AlterField(
-            model_name='holding',
-            name='amount',
+            model_name="holding",
+            name="amount",
             field=models.FloatField(default=0, null=True),
         ),
     ]

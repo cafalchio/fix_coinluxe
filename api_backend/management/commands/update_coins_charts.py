@@ -6,7 +6,7 @@ import requests
 from api_backend.models import PriceUpdate
 
 coingecko = "https://api.coingecko.com/api/v3"
-coins = '/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=250&page=1&sparkline=false&locale=en'
+coins = "/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=250&page=1&sparkline=false&locale=en"
 
 
 class Command(BaseCommand):
@@ -16,21 +16,24 @@ class Command(BaseCommand):
 
         response = requests.get(coingecko + coins)
         if response.status_code != 200:
-            self.stdout.write(self.style.ERROR(
-                'Failed to retrieve data from the endpoint.'))
+            self.stdout.write(
+                self.style.ERROR("Failed to retrieve data from the endpoint.")
+            )
             return
         coin_data = response.json()
         for coin in coin_data:
             if settings.DEBUG:
-                coin_id = coin['id']
+                coin_id = coin["id"]
             try:
                 response = requests.get(
-                    f"https://api.coingecko.com/api/v3/coins/{coin_id}/market_chart?vs_currency=eur&days=365")
+                    f"https://api.coingecko.com/api/v3/coins/{coin_id}/market_chart?vs_currency=eur&days=365"
+                )
             except BaseException:
                 continue
             if response.status_code != 200:
                 self.stdout.write(
-                    self.style.ERROR('Failed to retrieve data from the endpoint.'))
+                    self.style.ERROR("Failed to retrieve data.")
+                )
                 continue
             coin = response.json()
             print(coin_id)
@@ -48,4 +51,4 @@ class Command(BaseCommand):
             coin_obj.save()
             time.sleep(6)  # to avoid max requests
 
-        self.stdout.write(self.style.SUCCESS('Database update complete.'))
+        self.stdout.write(self.style.SUCCESS("Database update complete."))

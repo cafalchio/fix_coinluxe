@@ -5,9 +5,9 @@ from random import randint
 
 
 class CryptoCurrency(models.Model):
-    id = models.CharField(max_length=100, primary_key=True)
+    id = models.CharField(max_length=200, primary_key=True)
     symbol = models.CharField(max_length=10)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=200)
     image = models.URLField(null=True)
     current_price = models.FloatField(null=True)
     market_cap = models.BigIntegerField(null=True)
