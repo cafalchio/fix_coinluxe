@@ -21,11 +21,3 @@ class IndexListView(ListView):
             context['top_gainers'] = queryset
         return context
     
-def test_view(request):
-    file_path = "/coinluxe/loaderio-f7cb4845fcb26f88ba745418682e372e.txt"
-    try:
-        with open(file_path, "r") as file:
-            file_content = file.read()
-        return HttpResponse(file_content, content_type="text/plain")
-    except FileNotFoundError:
-        return HttpResponseNotFound("File not found.")
