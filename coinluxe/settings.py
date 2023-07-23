@@ -16,10 +16,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = "DEVELOPMENT" in os.environ
-DEBUG = False
+DEBUG = os.environ["DEVELOPMENT"]
 
-ALLOWED_HOSTS = ["*", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["*", "cafalchio.cloudns.ph" "localhost", "127.0.0.1"]
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -179,7 +178,7 @@ MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-if "USE_AWS" in os.environ:
+if os.environ["USE_AWS"]:
     AWS_S3_OBJECT_PARAMETERS = {
         "Expires": "Thu, 31 Dec 2099 20:00:00 GMT",
         "CacheControl": "max-age=94608000",
@@ -216,10 +215,10 @@ PRODUCT_PRICE = "price_1NHoiiHDQ21gOZTqjAwPDuLt"
 SITE_NAME = "Coinluxe"
 
 # dealing wit warnings in python manage.py check --deploy
-if not DEBUG:
-    SECURE_HSTS_SECONDS = 31536000 * 2
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
+# if not DEBUG:
+#     SECURE_HSTS_SECONDS = 31536000 * 2
+#     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+#     SECURE_HSTS_PRELOAD = True
+#     CSRF_COOKIE_SECURE = True
+#     SECURE_SSL_REDIRECT = True
+#     SESSION_COOKIE_SECURE = True

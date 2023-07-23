@@ -1,0 +1,5 @@
+START
+    gunicorn -c gunicorn.conf.py coinluxe.wsgi:application
+
+STOP 
+    sudo pkill -TERM gunicorn

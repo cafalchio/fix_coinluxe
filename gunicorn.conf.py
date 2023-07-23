@@ -4,7 +4,7 @@
 bind = "127.0.0.1:8000"
 
 # Number of worker processes
-workers = 6
+workers = 4
 
 # Number of worker threads per worker process
 threads = 1
@@ -16,10 +16,10 @@ worker_class = "sync"
 worker_connections = 1000
 
 # Timeout for graceful worker shutdown
-timeout = 10
+timeout = 20
 
 # Enable or disable daemon mode
-daemon = False
+daemon = True
 
 # Set the path to Gunicorn error log file
 errorlog = "error.log"
