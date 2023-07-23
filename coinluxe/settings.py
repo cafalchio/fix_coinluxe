@@ -215,10 +215,10 @@ PRODUCT_PRICE = "price_1NHoiiHDQ21gOZTqjAwPDuLt"
 SITE_NAME = "Coinluxe"
 
 # dealing wit warnings in python manage.py check --deploy
-# if not DEBUG:
-#     SECURE_HSTS_SECONDS = 31536000 * 2
-#     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-#     SECURE_HSTS_PRELOAD = True
-#     CSRF_COOKIE_SECURE = True
-#     SECURE_SSL_REDIRECT = True
-#     SESSION_COOKIE_SECURE = True
+if not DEBUG:
+    SECURE_HSTS_SECONDS = 31536000 * 2
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
