@@ -18,7 +18,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["*", "cafalchio.cloudns.ph" "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["cafalchio.cloudns.ph", "192.168.195.128", "57.128.169.117", "127.0.0.1"]
 
 INTERNAL_IPS = [
     "127.0.0.1",
